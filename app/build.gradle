@@ -19,9 +19,14 @@ def semanticVersion = [
 ]
 
 // Load secrets
-def secretPropertiesFile = rootProject.file('secrets.properties')
 def secretProperties = new Properties()
-secretProperties.load(new FileInputStream(secretPropertiesFile))
+
+try {
+	def secretPropertiesFile = rootProject.file('secrets.properties')
+	secretProperties.load(new FileInputStream(secretPropertiesFile))
+} catch (FileNotFoundException ignored) {
+	logger.warn('Unable to find file "secrets.properties". Some app features will not be available. See readme file for further information.')
+}
 
 android {
 	namespace 'de.iplabs.mobile_sdk_example_app'
