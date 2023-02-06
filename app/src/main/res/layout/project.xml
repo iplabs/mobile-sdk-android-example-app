@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+		<import type="android.view.View" />
+
+		<import type="de.iplabs.mobile_sdk.projectStorage.ProjectStorageLocation" />
+
+		<import
+			alias="Helpers"
+			type="de.iplabs.mobile_sdk_example_app.ui.helpers.HelpersKt" />
+
+		<variable
+			name="project"
+			type="de.iplabs.mobile_sdk.projectStorage.Project" />
+
+		<variable
+			name="fragment"
+			type="de.iplabs.mobile_sdk_example_app.fragments.ProjectsFragment" />
+
+		<variable
+			name="popupMenuAnchor"
+			type="View" />
+	</data>
+
+	<com.google.android.material.card.MaterialCardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="@dimen/material_card_margin_full"
+		android:layout_marginVertical="@dimen/material_card_margin_half"
+		android:clickable="true"
+		android:contentDescription="@{String.valueOf(project.id)}"
+		android:onClick="@{() -> fragment.loadProject(project)}"
+		android:onLongClick="@{() -> fragment.showProjectModificationPopupMenu(project, popupMenuAnchor)}"
+		app:cardElevation="@dimen/material_card_margin_elevation">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp">
+
+			<ImageView
+				android:id="@+id/project_preview"
+				android:layout_width="68dp"
+				android:layout_height="68dp"
+				android:contentDescription="@string/project_preview_description"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:src="@{project.previewImage != null ? Helpers.toDrawable(project.previewImage, context) : @drawable/icon_no_preview}" />
+
+			<TextView
+				android:id="@+id/project_title"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:paddingHorizontal="12dp"
+				android:paddingVertical="2dp"
+				android:text="@{project.title}"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				app:layout_constraintEnd_toStartOf="@id/project_popup_trigger"
+				app:layout_constraintStart_toEndOf="@id/project_preview"
+				app:layout_constraintTop_toTopOf="parent"
+				tools:text="Eileen’s Birthday Gift" />
+
+			<ImageButton
+				android:id="@+id/project_popup_trigger"
+				android:layout_width="30dp"
+				android:layout_height="30dp"
+				android:background="?attr/selectableItemBackgroundBorderless"
+				android:contentDescription="@string/popup_menu_trigger_description"
+				android:onClick="@{() -> fragment.showProjectModificationPopupMenu(project, popupMenuAnchor)}"
+				android:src="@drawable/icon_popup"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<TextView
+				android:id="@+id/project_product_title"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:paddingVertical="2dp"
+				android:paddingStart="12dp"
+				android:text="@{Integer.toString(project.productId)}"
+				android:textSize="16sp"
+				app:layout_constraintStart_toStartOf="@id/project_title"
+				app:layout_constraintTop_toBottomOf="@id/project_title"
+				tools:ignore="RtlSymmetry"
+				tools:text="Photo Mug" />
+
+			<TextView
+				android:id="@+id/project_product_options"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:paddingVertical="2dp"
+				android:paddingStart="6dp"
+				android:paddingEnd="12dp"
+				android:text="@{project.appliedProductOptions.empty == false ? `(` + Helpers.asString(project.appliedProductOptions) + `)` : ``}"
+				android:textSize="16sp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toEndOf="@id/project_product_title"
+				app:layout_constraintTop_toTopOf="@id/project_product_title"
+				tools:text="(Handedness: Right)" />
+
+			<ImageView
+				android:id="@+id/project_storage_location_indicator"
+				android:layout_width="0dp"
+				android:layout_height="24dp"
+				android:contentDescription="@string/storage_location_indicator_description"
+				android:paddingStart="12dp"
+				app:layout_constraintStart_toStartOf="@id/project_product_title"
+				app:layout_constraintTop_toBottomOf="@id/project_product_options"
+				app:src="@{project.location == ProjectStorageLocation.LOCAL ? @drawable/icon_local_project : @drawable/icon_cloud_project}"
+				tools:ignore="RtlSymmetry" />
+
+			<TextView
+				android:id="@+id/project_size"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:maxLines="1"
+				android:paddingHorizontal="8dp"
+				android:paddingVertical="2dp"
+				android:text="@{`▪  ` + Helpers.toFileSizeString(project.sizeInBytes, 1) + `  ▪`}"
+				android:textSize="16sp"
+				app:layout_constraintStart_toEndOf="@id/project_storage_location_indicator"
+				app:layout_constraintTop_toTopOf="@id/project_storage_location_indicator"
+				tools:text="▪  2.5 MB  ▪" />
+
+			<ImageView
+				android:id="@+id/impending_project_expiration_indicator"
+				android:layout_width="0dp"
+				android:layout_height="24dp"
+				android:contentDescription="@string/impending_project_expiration_indicator_description"
+				android:paddingEnd="2dp"
+				android:src="@drawable/icon_warning"
+				android:visibility="@{Helpers.expiresSoon(project) ? View.VISIBLE : View.GONE}"
+				app:layout_constraintStart_toEndOf="@id/project_size"
+				app:layout_constraintTop_toTopOf="@id/project_storage_location_indicator"
+				app:tint="@color/warning"
+				tools:ignore="RtlSymmetry" />
+
+			<TextView
+				android:id="@+id/project_expiration_date"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:paddingVertical="2dp"
+				android:paddingEnd="12dp"
+				android:text="@{Helpers.toTimestampString(project.lastModifiedDate)}"
+				android:textSize="16sp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toEndOf="@id/impending_project_expiration_indicator"
+				app:layout_constraintTop_toTopOf="@id/project_storage_location_indicator"
+				tools:ignore="RtlSymmetry"
+				tools:text="2022-08-02, 5:48 pm" />
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</com.google.android.material.card.MaterialCardView>
+</layout>

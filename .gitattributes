@@ -1,0 +1,10 @@
+# Line ending normalization
+#
+# Apply to repository with:
+# git add --renormalize .
+#
+# Apply to working tree with:
+# git rm --cached -r .
+# git reset --hard
+
+*     text=auto eol=lf

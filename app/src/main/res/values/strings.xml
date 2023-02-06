@@ -1,0 +1,88 @@
+<resources>
+	<string name="initializing_app">Initializing app…</string>
+	<string name="app_name" translatable="false">ip.labs Mobile SDK Example</string>
+	<string name="nav_header_title" translatable="false">ip.labs Mobile SDK</string>
+	<string name="nav_header_subtitle">Reference Integration App</string>
+	<string name="nav_header_desc">Navigation header</string>
+
+	<string name="launch_fragment_title">Launch</string>
+	<string name="selection_fragment_title">Products</string>
+	<string name="details_fragment_title">Details</string>
+	<string name="editor_fragment_title">Editor</string>
+	<string name="cart_fragment_title">Cart</string>
+	<string name="projects_fragment_title">Saved Projects</string>
+	<string name="order_overview_fragment_title">Order Overview</string>
+	<string name="order_confirmation_fragment_title">Order Confirmation</string>
+
+	<string name="login_and_registration">Login / Registration</string>
+
+	<string name="login">Login</string>
+	<string name="login_description">Please enter your username and password to continue.\n\nHint: Use “%1$s” / “%2$s” to simulate a successful login in this example app version.</string>
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="login_username_validation_warning">Username may not be empty</string>
+	<string name="login_password_validation_warning">Password may not be empty</string>
+	<string name="ok">OK</string>
+	<string name="cancel">Cancel</string>
+	<string name="login_confirmation">Welcome back, %1$s %2$s!</string>
+	<string name="login_failed">Login failed</string>
+	<string name="login_failed_description">Login attempt failed unfortunately. Please check your connection and credentials and try again.</string>
+	<string name="login_unavailable_title">Login Unavailable</string>
+	<string name="login_unavailable_message">To activate the login in this example app, you need to configure a corresponding back-end URL. Please get in contact with us for further instructions.</string>
+	<string name="function_unavailable_more">Read more…</string>
+	<string name="logout_prompt_title">Logout</string>
+	<string name="logout_prompt">If you log out of your user account, you will no longer be able to place orders and access projects you stored in the cloud. You can log back in later to regain these functionalities. Are you sure you want to proceed?</string>
+	<string name="logout_confirmation">You have been logged out successfully.</string>
+
+	<string name="loading_products">Loading products…</string>
+	<string name="warning_icon">Warning icon</string>
+	<string name="loading_selection_failed">Failed to load products. Please check your connection and retry.</string>
+	<string name="product_tile_description">Tile for product %1$s</string>
+	<string name="create_product">Create now</string>
+	<string name="product_preview_description">Preview of the product</string>
+	<string name="log_in_to_see_cloud_projects">Please log in to see your cloud projects.</string>
+	<string name="loading_projects">Loading projects…</string>
+	<string name="no_projects">You have not stored any projects yet.</string>
+	<string name="loading_projects_failed">Failed to load projects. Please check your connection and retry.</string>
+	<string name="project_preview_description">Project preview</string>
+	<string name="storage_location_indicator_description">Storage location indicator</string>
+	<string name="impending_project_expiration_indicator_description">Impending project expiration indicator</string>
+	<string name="rename">Rename</string>
+	<string name="rename_project_title">Rename project</string>
+	<string name="rename_project">Please enter a new title for your project “%1$s”:</string>
+	<string name="new_title">New project title</string>
+	<string name="renaming_project_validation_warning">Title may not be empty</string>
+	<string name="renaming_project_failed_title">Renaming project failed</string>
+	<string name="renaming_project_failed">We were unfortunately unable to rename your project. Please check your connection and try again.</string>
+	<string name="remove">Remove</string>
+	<string name="remove_project_title">Remove project</string>
+	<string name="remove_project">Are you sure you want to remove your project “%1$s”? It will no longer be available and this cannot be undone.</string>
+	<string name="removing_project_failed_title">Removing project failed</string>
+	<string name="removing_project_failed">We were unfortunately unable to remove your project. Please check your connection and try again.</string>
+	<string name="no">No</string>
+	<string name="yes">Yes</string>
+	<string name="cart_empty">Your cart is currently empty.</string>
+	<string name="shop_now">Shop now</string>
+	<string name="cart_item_preview_description">Product preview</string>
+	<string name="popup_menu_trigger_description">Show more options</string>
+	<string name="remove_cart_item_title">Remove cart item</string>
+	<string name="remove_cart_item">Are you sure you want to remove your cart item “%1$s”? It will no longer be available and this cannot be undone.</string>
+	<string name="decrease_count">Decrease count</string>
+	<string name="increase_count">Increase count</string>
+	<string name="edit">Edit</string>
+	<string name="total_price">Total price:</string>
+	<string name="editing_cart_project_failed_title">Editing cart item failed</string>
+	<string name="editing_cart_project_failed">Your cart item could not be loaded for editing. Please check your connection and try again.</string>
+	<string name="continue_shopping">Add more</string>
+	<string name="proceed_to_checkout">Check out</string>
+	<string name="submitting_order">Submitting order…</string>
+	<string name="ordering_unavailable_title">Ordering Unavailable</string>
+	<string name="ordering_unavailable_message">To activate ordering in this example app, you need to configure a corresponding External Cart Service key. Please get in contact with us for further instructions.</string>
+	<string name="placing_order_failed_title">Placing order failed</string>
+	<string name="placing_order_failed_temporarily">We were unfortunately unable to submit your order. Please check your connection and try again.</string>
+	<string name="placing_order_failed_permanently">An error occurred while trying to submit your order. You can retry but it is unlikely to succeed. Please contact our support for further instructions.</string>
+	<string name="submit_order">Submit order</string>
+	<string name="done_description">Order placed successfully</string>
+	<string name="back_to_home">Back to start page</string>
+	<string name="cart_reminder">No worries – products already designed will remain in your cart for later.</string>
+</resources>

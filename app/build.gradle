@@ -1,0 +1,88 @@
+plugins {
+	id 'com.android.application'
+	id 'kotlin-android'
+	id 'kotlin-kapt'
+	id 'androidx.navigation.safeargs.kotlin'
+	id 'org.jetbrains.kotlin.plugin.serialization'
+}
+
+/*
+	Versioning map:
+	- “scheme” supports ints up to 21
+	- “major”, “minor”, and “patch” support ints up to 99
+*/
+def semanticVersion = [
+	'scheme'   : 0,
+	'major'    : 1,
+	'minor'    : 1,
+	'patch'    : 1
+]
+
+// Load secrets
+def secretPropertiesFile = rootProject.file('secrets.properties')
+def secretProperties = new Properties()
+secretProperties.load(new FileInputStream(secretPropertiesFile))
+
+android {
+	namespace 'de.iplabs.mobile_sdk_example_app'
+
+	compileSdk 33
+
+	defaultConfig {
+		applicationId 'de.iplabs.mobile_sdk_example_app'
+
+		minSdk 29
+		targetSdk 33
+
+		versionCode(
+			semanticVersion['scheme'] * 100000000 + semanticVersion['major'] * 1000000 + semanticVersion['minor'] * 10000 + semanticVersion['patch'] * 100 + 99
+		)
+		versionName "${semanticVersion['major']}.${semanticVersion['minor']}.${semanticVersion['patch']}"
+
+		buildConfigField('String', 'EXTERNAL_CART_SERVICE_KEY', secretProperties.getProperty('EXTERNAL_CART_SERVICE_KEY', 'null'))
+		buildConfigField('String', 'ADD_USER_INFO_URL', secretProperties.getProperty('ADD_USER_INFO_URL', 'null'))
+		buildConfigField('String', 'AMPLITUDE_API_KEY', secretProperties.getProperty('AMPLITUDE_API_KEY', 'null'))
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
+	}
+
+	buildFeatures {
+		dataBinding true
+		viewBinding true
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
+	}
+
+	kotlinOptions {
+		jvmTarget = '17'
+	}
+}
+
+ext {
+	lifecycleVersion = '2.5.1'
+}
+
+dependencies {
+	implementation 'androidx.appcompat:appcompat:1.6.0'
+	implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+	implementation 'androidx.core:core-ktx:1.9.0'
+	implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+	implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+	implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.navigationVersion"
+	implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.navigationVersion"
+	implementation 'androidx.preference:preference-ktx:1.2.0'
+	implementation 'androidx.webkit:webkit:1.6.0'
+	implementation 'com.amplitude:analytics-android:1.6.0'
+	implementation 'com.google.android.material:material:1.8.0'
+	implementation 'de.iplabs:mobile-sdk:1.1.0'
+	implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.4.0'
+	implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
+}

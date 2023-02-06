@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/nav_graph"
+	app:startDestination="@id/nav_launch">
+
+	<fragment
+		android:id="@+id/nav_launch"
+		android:name="de.iplabs.mobile_sdk_example_app.fragments.LaunchFragment"
+		android:label="@string/launch_fragment_title"
+		tools:layout="@layout/fragment_launch">
+
+		<action
+			android:id="@+id/action_nav_launch_to_nav_selection"
+			app:destination="@id/nav_selection"
+			app:popUpTo="@id/nav_launch"
+			app:popUpToInclusive="true" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/nav_selection"
+		android:name="de.iplabs.mobile_sdk_example_app.fragments.SelectionFragment"
+		android:label="@string/selection_fragment_title"
+		tools:layout="@layout/fragment_selection">
+
+		<action
+			android:id="@+id/action_nav_selection_to_nav_details"
+			app:destination="@id/nav_details"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/nav_details"
+		android:name="de.iplabs.mobile_sdk_example_app.fragments.DetailsFragment"
+		android:label="@string/details_fragment_title"
+		tools:layout="@layout/fragment_details">
+
+		<argument
+			android:name="product"
+			app:argType="de.iplabs.mobile_sdk.portfolio.Product" />
+		<action
+			android:id="@+id/action_nav_details_to_nav_editor"
+			app:destination="@id/nav_editor"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right"
+			app:popUpTo="@id/nav_selection"
+			app:popUpToInclusive="false" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/nav_editor"
+		android:name="de.iplabs.mobile_sdk_example_app.fragments.EditorFragment"
+		android:label="@string/editor_fragment_title"
+		tools:layout="@layout/fragment_editor">
+
+		<argument
+			android:name="productConfiguration"
+			android:defaultValue="@null"
+			app:argType="de.iplabs.mobile_sdk.editor.ProductConfiguration"
+			app:nullable="true" />
+		<argument
+			android:name="project"
+			android:defaultValue="@null"
+			app:argType="de.iplabs.mobile_sdk.projectStorage.Project"
+			app:nullable="true" />
+		<argument
+			android:name="cartProject"
+			android:defaultValue="@null"
+			app:argType="de.iplabs.mobile_sdk.editor.CartProject"
+			app:nullable="true" />
+		<action
+			android:id="@+id/action_nav_editor_to_nav_cart"
+			app:destination="@id/nav_cart"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right"
+			app:popUpTo="@id/nav_selection"
+			app:popUpToInclusive="false" />
+		<action
+			android:id="@+id/action_nav_editor_to_nav_projects"
+			app:destination="@id/nav_projects"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right"
+			app:popUpTo="@id/nav_selection"
+			app:popUpToInclusive="false" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/nav_projects"
+		android:name="de.iplabs.mobile_sdk_example_app.fragments.ProjectsFragment"
+		android:label="@string/projects_fragment_title"
+		tools:layout="@layout/fragment_projects">
+
+		<action
+			android:id="@+id/action_nav_projects_to_nav_editor"
+			app:destination="@id/nav_editor"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right"
+			app:popUpTo="@id/nav_projects" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/nav_cart"
+		android:name="de.iplabs.mobile_sdk_example_app.fragments.CartFragment"
+		android:label="@string/cart_fragment_title"
+		tools:layout="@layout/fragment_cart">
+
+		<action
+			android:id="@+id/action_nav_cart_to_nav_selection"
+			app:destination="@id/nav_selection"
+			app:enterAnim="@anim/slide_in_left"
+			app:exitAnim="@anim/slide_out_right"
+			app:popEnterAnim="@anim/slide_in_right"
+			app:popExitAnim="@anim/slide_out_left" />
+
+		<action
+			android:id="@+id/action_nav_cart_to_nav_order_overview"
+			app:destination="@id/nav_order_overview"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
+		<action
+			android:id="@+id/action_nav_cart_to_nav_editor"
+			app:destination="@id/nav_editor"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/nav_order_overview"
+		android:name="de.iplabs.mobile_sdk_example_app.fragments.OrderOverviewFragment"
+		android:label="@string/order_overview_fragment_title"
+		tools:layout="@layout/fragment_order_overview">
+
+		<action
+			android:id="@+id/action_nav_order_overview_to_nav_order_confirmation"
+			app:destination="@id/nav_order_confirmation"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right"
+			app:popUpTo="@id/nav_cart" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/nav_order_confirmation"
+		android:name="de.iplabs.mobile_sdk_example_app.fragments.OrderConfirmationFragment"
+		android:label="@string/order_confirmation_fragment_title"
+		tools:layout="@layout/fragment_order_confirmation">
+
+		<action
+			android:id="@+id/action_nav_order_confirmation_to_nav_selection"
+			app:destination="@id/nav_selection"
+			app:enterAnim="@anim/slide_in_left"
+			app:exitAnim="@anim/slide_out_right"
+			app:popEnterAnim="@anim/slide_in_right"
+			app:popExitAnim="@anim/slide_out_left"
+			app:popUpTo="@id/nav_selection"
+			app:popUpToInclusive="true" />
+	</fragment>
+
+	<action
+		android:id="@+id/action_global_nav_cart"
+		app:destination="@id/nav_cart"
+		app:enterAnim="@anim/slide_in_right"
+		app:exitAnim="@anim/slide_out_left"
+		app:popEnterAnim="@anim/slide_in_left"
+		app:popExitAnim="@anim/slide_out_right" />
+</navigation>

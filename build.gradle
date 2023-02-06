@@ -1,0 +1,22 @@
+buildscript {
+	repositories {
+		google()
+		mavenCentral()
+	}
+
+	ext {
+		navigationVersion = '2.5.3'
+		kotlinLibrariesVersion = '1.8.0'
+	}
+
+	dependencies {
+		classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+		classpath 'com.android.tools.build:gradle:7.4.1'
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinLibrariesVersion"
+		classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlinLibrariesVersion"
+	}
+}
+
+task clean(type: Delete) {
+	delete rootProject.buildDir
+}

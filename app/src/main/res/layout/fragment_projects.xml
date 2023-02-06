@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:background="@color/fragment_background"
+	tools:context=".MainActivity">
+
+	<data>
+
+		<import type="android.view.View" />
+
+		<variable
+			name="activity"
+			type="de.iplabs.mobile_sdk_example_app.MainActivity" />
+
+		<variable
+			name="mainActivityViewModel"
+			type="de.iplabs.mobile_sdk_example_app.viewmodels.MainActivityViewModel" />
+
+		<variable
+			name="viewModel"
+			type="de.iplabs.mobile_sdk_example_app.viewmodels.ProjectsViewModel" />
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id="@+id/no_cloud_projects_indicator"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/warning_background"
+			android:paddingTop="8dp"
+			android:visibility="@{mainActivityViewModel.user == null &amp;&amp; mainActivityViewModel.loginLoading == false ? View.VISIBLE : View.GONE}"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent">
+
+			<ImageView
+				android:id="@+id/no_cloud_projects"
+				android:layout_width="44dp"
+				android:layout_height="44dp"
+				android:layout_marginStart="12dp"
+				android:layout_marginBottom="8dp"
+				android:contentDescription="@string/warning_icon"
+				android:src="@drawable/icon_no_cloud_projects"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<TextView
+				android:id="@+id/logged_out_label"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="12dp"
+				android:layout_marginBottom="8dp"
+				android:ellipsize="end"
+				android:text="@string/log_in_to_see_cloud_projects"
+				android:textColor="@color/on_background"
+				android:textSize="16sp"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/login"
+				app:layout_constraintStart_toEndOf="@id/no_cloud_projects"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/login"
+				style="@style/Widget.MaterialComponents.Button.Icon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="12dp"
+				android:layout_marginBottom="8dp"
+				android:onClick="@{() -> activity.showLoginDialog()}"
+				android:text="@string/login"
+				app:icon="@drawable/icon_login"
+				app:iconGravity="textStart"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<com.google.android.material.divider.MaterialDivider
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:dividerColor="@color/strong_divider"
+				app:layout_constraintBottom_toBottomOf="parent" />
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+		<androidx.constraintlayout.widget.Group
+			android:id="@+id/projects_group"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="@{viewModel.projects.isEmpty() || viewModel.loading == true ? View.GONE : View.VISIBLE}"
+			app:constraint_referenced_ids="project_list" />
+
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/project_list"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_marginVertical="@dimen/material_card_margin_half"
+			android:fadingEdgeLength="16dp"
+			android:requiresFadingEdge="vertical"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/no_cloud_projects_indicator" />
+
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/vertical_middle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			app:layout_constraintGuide_percent="0.5" />
+
+		<androidx.constraintlayout.widget.Group
+			android:id="@+id/projects_loading_group"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="@{viewModel.loading == false ? View.GONE : View.VISIBLE}"
+			app:constraint_referenced_ids="projects_loading_spinner, projects_loading_label" />
+
+		<ProgressBar
+			android:id="@+id/projects_loading_spinner"
+			style="?android:attr/progressBarStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="4dp"
+			app:layout_constraintBottom_toTopOf="@id/vertical_middle"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent" />
+
+		<TextView
+			android:id="@+id/projects_loading_label"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="4dp"
+			android:text="@string/loading_projects"
+			android:textAlignment="center"
+			android:textSize="20sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/vertical_middle" />
+
+		<androidx.constraintlayout.widget.Group
+			android:id="@+id/loading_projects_failed_group"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="gone"
+			app:constraint_referenced_ids="projects_warning, loading_projects_failed_label" />
+
+		<ImageView
+			android:id="@+id/projects_warning"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
+			android:layout_marginBottom="4dp"
+			android:contentDescription="@string/warning_icon"
+			android:src="@drawable/icon_warning"
+			app:layout_constraintBottom_toTopOf="@id/vertical_middle"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent" />
+
+		<TextView
+			android:id="@+id/loading_projects_failed_label"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="32dp"
+			android:layout_marginTop="4dp"
+			android:text="@string/loading_projects_failed"
+			android:textAlignment="center"
+			android:textSize="20sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/vertical_middle" />
+
+		<androidx.constraintlayout.widget.Group
+			android:id="@+id/no_projects_group"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="@{viewModel.projects.isEmpty() &amp;&amp; viewModel.loading == false ? View.VISIBLE : View.GONE}"
+			app:constraint_referenced_ids="no_projects_icon, no_projects_label" />
+
+		<ImageView
+			android:id="@+id/no_projects_icon"
+			android:layout_width="96dp"
+			android:layout_height="96dp"
+			android:layout_marginBottom="8dp"
+			android:contentDescription="@string/warning_icon"
+			android:src="@drawable/icon_no_projects"
+			app:layout_constraintBottom_toTopOf="@id/vertical_middle"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent" />
+
+		<TextView
+			android:id="@+id/no_projects_label"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="16dp"
+			android:layout_marginTop="8dp"
+			android:text="@string/no_projects"
+			android:textAlignment="center"
+			android:textSize="20sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/vertical_middle" />
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

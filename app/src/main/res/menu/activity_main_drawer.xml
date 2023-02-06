@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:showIn="navigation_view">
+
+	<group
+		android:id="@+id/general_nav_targets"
+		android:checkableBehavior="single">
+		<item
+			android:id="@+id/nav_selection"
+			android:icon="@drawable/icon_menu_selection"
+			android:title="@string/selection_fragment_title" />
+
+		<item
+			android:id="@+id/nav_cart"
+			android:icon="@drawable/icon_menu_cart"
+			android:title="@string/cart_fragment_title" />
+	</group>
+
+	<group
+		android:id="@+id/user_specific_nav_targets"
+		android:checkableBehavior="single">
+		<item
+			android:id="@+id/nav_projects"
+			android:icon="@drawable/icon_saved_projects"
+			android:title="@string/projects_fragment_title" />
+	</group>
+</menu>
