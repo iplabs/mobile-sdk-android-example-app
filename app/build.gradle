@@ -11,22 +11,29 @@ plugins {
 	- “scheme” supports ints up to 21
 	- “major”, “minor”, and “patch” support ints up to 99
 */
-def semanticVersion = [
+LinkedHashMap<String, Serializable> semanticVersion = [
 	'scheme'   : 0,
 	'major'    : 1,
 	'minor'    : 1,
-	'patch'    : 1
+	'patch'    : 2
 ]
 
-// Load secrets
-def secretProperties = new Properties()
+Properties loadSecretsFromFile(String filePath) {
+	Properties secretProperties = new Properties()
 
-try {
-	def secretPropertiesFile = rootProject.file('secrets.properties')
-	secretProperties.load(new FileInputStream(secretPropertiesFile))
-} catch (FileNotFoundException ignored) {
-	logger.warn('Unable to find file "secrets.properties". Some app features will not be available. See readme file for further information.')
+	try {
+		File secretPropertiesFile = rootProject.file(filePath)
+		secretProperties.load(new FileInputStream(secretPropertiesFile))
+	} catch (FileNotFoundException ignored) {}
+
+	return secretProperties
 }
+
+static String determineSecretValue(String key, Properties properties) {
+	return properties.getProperty(key, System.getenv(key) ? "\"${System.getenv(key)}\"" : null)
+}
+
+Properties secretProperties = loadSecretsFromFile('secrets.properties')
 
 android {
 	namespace 'de.iplabs.mobile_sdk_example_app'
@@ -44,9 +51,16 @@ android {
 		)
 		versionName "${semanticVersion['major']}.${semanticVersion['minor']}.${semanticVersion['patch']}"
 
-		buildConfigField('String', 'EXTERNAL_CART_SERVICE_KEY', secretProperties.getProperty('EXTERNAL_CART_SERVICE_KEY', 'null'))
-		buildConfigField('String', 'ADD_USER_INFO_URL', secretProperties.getProperty('ADD_USER_INFO_URL', 'null'))
-		buildConfigField('String', 'AMPLITUDE_API_KEY', secretProperties.getProperty('AMPLITUDE_API_KEY', 'null'))
+		List secretKeys = [
+			'IPLABS_MOBILE_SDK_ADD_USER_INFO_URL',
+			'IPLABS_MOBILE_SDK_AMPLITUDE_API_KEY',
+			'IPLABS_MOBILE_SDK_EXTERNAL_CART_SERVICE_KEY'
+		]
+
+		secretKeys.each {
+			String value = determineSecretValue(it, secretProperties)
+			buildConfigField('String', it, (value ? value : 'null'))
+		}
 	}
 
 	buildTypes {

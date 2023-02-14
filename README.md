@@ -12,21 +12,25 @@ This folder is an [Android Studio](https://developer.android.com/studio/) projec
 
 ### Configuring Secrets
 
-When first checking out this repository, building, and launching the app, the features user login, product ordering, and user tracking will not be available. This is due to the fact, that all of these functionalities each require a secret that you have to configure locally in order for them to be activated in a regular fashion. To achieve that, create a text file called `secrets.properties` in the root of this project and fill it with these key-value pairs (one per line and doesn’t have to be each one):
+When first checking out this repository, building, and launching the app, the features user login, product ordering, and user tracking will not be available. This is due to the fact, that all of these functionalities each require a secret that you have to configure locally in order for them to be activated in a regular fashion. There are two ways to achieve this:
 
-* `ADD_USER_INFO_URL="<value>"`  
-in which `<value>` is the URL to your WIPE SSO login backend  
-→ activates availability of login
-* `EXTERNAL_CART_SERVICE_KEY="<value>"`  
-in which `<value>` is the secret key for your ECS backend instance  
-→ activates availability of ordering
-* `AMPLITUDE_API_KEY="<value>"`  
-in which `<value>` is your Amplitude API token  
-→ activates availability of user tracking
+* Store the secrets in your system’s environment variables. For more information please refer to the documentation of your specific platform.
+* Put the secrets in a special file called `secrets.properties` that you have to create in the root of this project with key-value pairs in it (one per line, key and value separated by just an equals sign, values double-quoted).
 
-The values for `ADD_USER_INFO_URL` and `EXTERNAL_CART_SERVICE_KEY` are tied to a specific customer setup. [Get in contact with us](https://www.iplabs.com/photo-commerce-mobile-sdk/) for further details.
+⚠️ *If you choose the latter variant: Please create the file exactly as described, so it is excluded from committing and pushing via Git. Never let any of the secrets become public.*
 
-⚠️ *Please create the file exactly as described, so it is excluded from committing and pushing via Git. Never let any of the secrets become public.*
+Using environment variables is the preferred way. Though, if you just want to temporarily change one of the values, it is easier to do so in the file, because that takes precedence over the environment definitions and also prevents you from having to restart the IDE / terminal to reevaluate the system environment.
+
+Here is a list of all secrets currently available and their meaning:
+
+* `IPLABS_MOBILE_SDK_ADD_USER_INFO_URL`:  
+URL to your WIPE SSO login backend; activates availability of login
+* `IPLABS_MOBILE_SDK_EXTERNAL_CART_SERVICE_KEY`:  
+secret key for your ECS backend instance; activates availability of ordering
+* `IPLABS_MOBILE_SDK_AMPLITUDE_API_KEY`:  
+your Amplitude API token; activates availability of user tracking
+
+You can also just define a subset of these secret and leave others out. The values for `IPLABS_MOBILE_SDK_ADD_USER_INFO_URL` and `IPLABS_MOBILE_SDK_EXTERNAL_CART_SERVICE_KEY` are tied to a specific customer setup. [Get in contact with us](https://www.iplabs.com/photo-commerce-mobile-sdk/) for further details.
 
 ## Disclaimer
 

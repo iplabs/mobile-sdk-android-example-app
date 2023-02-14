@@ -105,10 +105,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		userTracking.processEvent(event = launchEvent)
 
 		@Suppress("USELESS_CAST")
-		addUserInfoUrl = (BuildConfig.ADD_USER_INFO_URL as String?)?.let { URL(it) }
+		addUserInfoUrl = (BuildConfig.IPLABS_MOBILE_SDK_ADD_USER_INFO_URL as String?)?.let { URL(it) }
 
 		@Suppress("USELESS_CAST")
-		externalCartServiceKey = BuildConfig.EXTERNAL_CART_SERVICE_KEY as String?
+		externalCartServiceKey = BuildConfig.IPLABS_MOBILE_SDK_EXTERNAL_CART_SERVICE_KEY as String?
 
 		when (
 			IplabsMobileSdk.initialize(
@@ -381,7 +381,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 	@Suppress("SameParameterValue")
 	private fun initializeAnalytics(permissionLevel: UserTrackingPermission): UserTracking {
 		@Suppress("USELESS_CAST")
-		val amplitudeKey = BuildConfig.AMPLITUDE_API_KEY as String?
+		val amplitudeKey = BuildConfig.IPLABS_MOBILE_SDK_AMPLITUDE_API_KEY as String?
 
 		val amplitudeAnalytics = amplitudeKey?.let {
 			AmplitudeAnalytics(apiKey = it, context = applicationContext)
