@@ -107,10 +107,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		userTracking.processEvent(event = launchEvent)
 
 		@Suppress("USELESS_CAST")
-		addUserInfoUrl = (BuildConfig.IPLABS_MOBILE_SDK_ADD_USER_INFO_URL as String?)?.let { URL(it) }
+		addUserInfoUrl =
+			(BuildConfig.IPLABS_MOBILE_SDK_ADD_USER_INFO_URL as String?)?.let { URL(it) }
 
 		@Suppress("USELESS_CAST")
 		externalCartServiceKey = BuildConfig.IPLABS_MOBILE_SDK_EXTERNAL_CART_SERVICE_KEY as String?
+
+		val sdkCacheLocation = File(FileCache.directory, "iplabs-mobile-sdk").apply { mkdir() }
 
 		when (
 			IplabsMobileSdk.initialize(

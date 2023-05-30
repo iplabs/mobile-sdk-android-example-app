@@ -3,7 +3,7 @@ package de.iplabs.mobile_sdk_example_app.data
 import java.io.File
 
 object FileCache {
-	private var directory: File? = null
+	var directory: File? = null
 		get() = field ?: error("Cache has not been initialized yet.")
 		set(directory) {
 			check(field == null) { "Cache has already been initialized." }
