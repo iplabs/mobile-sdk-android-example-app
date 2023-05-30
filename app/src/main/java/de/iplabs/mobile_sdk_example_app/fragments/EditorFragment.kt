@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -223,7 +224,7 @@ class EditorFragment : Fragment() {
 		_binding = null
 	}
 
-	fun initiateTerminationRequest(targetDestinationId: Int? = null) {
+	fun initiateTerminationRequest(@IdRes targetDestinationId: Int? = null) {
 		editor.requestTermination(targetDestinationId = targetDestinationId)
 	}
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import de.iplabs.mobile_sdk.portfolio.Product
 import de.iplabs.mobile_sdk.projectStorage.Project
@@ -80,6 +81,7 @@ fun Bitmap.toDrawable(context: Context): BitmapDrawable {
 }
 
 @SuppressLint("DiscouragedApi")
+@DrawableRes
 fun Product.getImage(fragment: Fragment): Int {
 	val productImage = fragment.activity?.let {
 		val operatorId = Configuration.operatorId

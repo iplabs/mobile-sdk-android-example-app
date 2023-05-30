@@ -106,7 +106,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 		userTracking.processEvent(event = launchEvent)
 
-		@Suppress("USELESS_CAST")
 		addUserInfoUrl =
 			(BuildConfig.IPLABS_MOBILE_SDK_ADD_USER_INFO_URL as String?)?.let { URL(it) }
 
@@ -390,7 +389,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 	@Suppress("SameParameterValue")
 	private fun initializeAnalytics(permissionLevel: UserTrackingPermission): UserTracking {
-		@Suppress("USELESS_CAST")
 		val amplitudeKey = BuildConfig.IPLABS_MOBILE_SDK_AMPLITUDE_API_KEY as String?
 
 		val amplitudeAnalytics = amplitudeKey?.let {
