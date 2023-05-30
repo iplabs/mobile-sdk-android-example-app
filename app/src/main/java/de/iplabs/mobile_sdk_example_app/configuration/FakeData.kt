@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import de.iplabs.mobile_sdk.user.Address
 import de.iplabs.mobile_sdk.user.UserInfo
 import de.iplabs.mobile_sdk_example_app.R
-import java.util.*
+import java.util.UUID
 
 const val fakeUserPassword = "Secret#123"
 
