@@ -126,7 +126,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 						)
 					)
 				},
-				userTrackingPermission = userTracking.permissionLevel
+				userTrackingPermission = userTracking.permissionLevel,
+				cacheLocation = sdkCacheLocation
 			)
 		) {
 			InitializationResult.Success -> Unit

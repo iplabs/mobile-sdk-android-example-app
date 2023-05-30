@@ -11,9 +11,10 @@ object Configuration {
 	// Locale.DE_DE also available for demo purposes
 	val translationLocale: Locale? = null
 
-	val excludedProductIds = listOf(50035648, 50035650)
+	val excludedProductIds = listOf(50035648, 50035650, 60002077)
 	const val baseUrl = "https://$operatorId-staging.iplabs.io"
 	val editorConfiguration = EditorConfiguration(
+		allowCloudStorage = true,
 		allowMultipleElementsForWallDecor = true,
 		warnUncoveredWrapAreaWallDecor = true
 	)
