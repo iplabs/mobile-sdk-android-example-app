@@ -123,11 +123,13 @@ class ProjectsFragment : Fragment() {
 
 					true
 				}
+
 				R.id.remove_project -> {
 					removeProject(project = project)
 
 					true
 				}
+
 				else -> false
 			}
 		}

@@ -24,7 +24,8 @@ Properties loadSecretsFromFile(String filePath) {
 	try {
 		File secretPropertiesFile = rootProject.file(filePath)
 		secretProperties.load(new FileInputStream(secretPropertiesFile))
-	} catch (FileNotFoundException ignored) {}
+	} catch (FileNotFoundException ignored) {
+	}
 
 	return secretProperties
 }

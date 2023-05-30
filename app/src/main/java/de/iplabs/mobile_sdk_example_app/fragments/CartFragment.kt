@@ -118,11 +118,13 @@ class CartFragment : Fragment() {
 
 					true
 				}
+
 				R.id.remove_cart_item -> {
 					removeItem(cartItem = cartItem)
 
 					true
 				}
+
 				else -> false
 			}
 		}

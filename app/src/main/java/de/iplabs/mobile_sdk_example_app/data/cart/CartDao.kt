@@ -26,6 +26,7 @@ class CartDao(private val cart: Cart) {
 			-1 -> {
 				cart.addItem(item = item)
 			}
+
 			else -> {
 				val originalQuantity = getItems().value[itemIndex].quantity
 

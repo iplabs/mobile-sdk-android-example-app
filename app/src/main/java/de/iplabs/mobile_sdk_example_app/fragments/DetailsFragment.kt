@@ -116,12 +116,14 @@ class DetailsFragment : Fragment() {
 					"Product option “${option.id}” does not offer any values and will therefore be skipped."
 				)
 			}
+
 			1 -> {
 				Log.d(
 					"DetailsFragment",
 					"Product option “${option.id}” only offers the single value “${option.values.first()}” and will therefore be skipped."
 				)
 			}
+
 			2 -> addRadioGroupOption(
 				option.id,
 				option.name,
@@ -130,6 +132,7 @@ class DetailsFragment : Fragment() {
 				parent,
 				option.description
 			)
+
 			else -> {
 				addComboBoxOption(
 					option.id,

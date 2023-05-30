@@ -180,11 +180,13 @@ class EditorFragment : Fragment() {
 									-1 -> {
 										parentActivity.onBackPressedDispatcher.onBackPressed()
 									}
+
 									R.id.nav_projects -> {
 										findNavController().navigate(
 											EditorFragmentDirections.actionNavEditorToNavProjects()
 										)
 									}
+
 									else -> {
 										findNavController().navigate(it)
 									}
@@ -192,6 +194,7 @@ class EditorFragment : Fragment() {
 							}
 						}
 					}
+
 					EditorTerminationState.PENDING_CHANGES -> {
 						backNavigationCallback.isEnabled = true
 					}
@@ -257,6 +260,7 @@ class EditorFragment : Fragment() {
 					branding = branding
 				)
 			}
+
 			is Project -> {
 				editor.initialize(
 					project = editableItem,
@@ -266,6 +270,7 @@ class EditorFragment : Fragment() {
 					branding = branding
 				)
 			}
+
 			is CartProject -> {
 				editor.initialize(
 					cartProject = editableItem,
@@ -274,6 +279,7 @@ class EditorFragment : Fragment() {
 					branding = branding
 				)
 			}
+
 			else -> {
 				throw IllegalArgumentException(
 					"You must provide either a ProductConfiguration, a Project, or a CartProject."

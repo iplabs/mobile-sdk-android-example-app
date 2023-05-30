@@ -138,6 +138,7 @@ class OrderOverviewFragment : Fragment() {
 						OrderOverviewFragmentDirections.actionNavOrderOverviewToNavOrderConfirmation()
 					)
 				}
+
 				is OrderResult.ConnectionError, is OrderResult.HttpError -> {
 					MaterialAlertDialogBuilder(requireContext())
 						.setTitle(resources.getString(R.string.placing_order_failed_title))
@@ -145,6 +146,7 @@ class OrderOverviewFragment : Fragment() {
 						.setPositiveButton(resources.getString(R.string.ok), null)
 						.show()
 				}
+
 				OrderResult.DuplicateOrderIdError, OrderResult.InvalidSignatureError,
 				OrderResult.RevisionIdNotFoundError, is OrderResult.UnknownError -> {
 					Log.e("Cart", "An unknown error occurred during order submission.")
@@ -155,6 +157,7 @@ class OrderOverviewFragment : Fragment() {
 						.setPositiveButton(resources.getString(R.string.ok), null)
 						.show()
 				}
+
 				null -> {
 					Log.e(
 						"SubmitOrder",

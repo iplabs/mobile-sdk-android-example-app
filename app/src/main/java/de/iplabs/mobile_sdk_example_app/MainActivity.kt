@@ -134,6 +134,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 			InitializationResult.AlreadyInitializedError -> {
 				Log.w("MainActivity", "An attempt to reinitialize the ip.labs Mobile SDK occurred.")
 			}
+
 			is InitializationResult.UnknownError -> {
 				Log.e(
 					"MainActivity",
@@ -188,6 +189,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 					is EditorFragment -> currentFragment.initiateTerminationRequest(
 						targetDestinationId = R.id.action_global_nav_cart
 					)
+
 					else -> navController.navigate(NavGraphDirections.actionGlobalNavCart())
 				}
 			}

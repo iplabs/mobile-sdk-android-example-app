@@ -29,27 +29,32 @@ fun Long.toFileSizeString(precision: Int): String {
 			it < 0 -> {
 				throw IllegalArgumentException("File size smaller 0 is not allowed.")
 			}
+
 			it < 1024 -> {
 				"$it B"
 			}
+
 			it < 1048576 -> {
 				"${
 					(it.toDouble() / 1024L).toBigDecimal()
 						.setScale(precision, RoundingMode.HALF_EVEN)
 				}  KB"
 			}
+
 			it < 1073741824 -> {
 				"${
 					(it.toDouble() / 1048576L).toBigDecimal()
 						.setScale(precision, RoundingMode.HALF_EVEN)
 				} MB"
 			}
+
 			it < 1099511627776 -> {
 				"${
 					(it.toDouble() / 1073741824L).toBigDecimal()
 						.setScale(precision, RoundingMode.HALF_EVEN)
 				} GB"
 			}
+
 			else -> {
 				"${
 					(it.toDouble() / 1125899906842624L).toBigDecimal()

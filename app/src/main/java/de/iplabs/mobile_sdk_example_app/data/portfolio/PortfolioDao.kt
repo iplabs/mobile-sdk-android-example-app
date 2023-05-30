@@ -31,11 +31,13 @@ class PortfolioDao(private val preferences: SharedPreferences) {
 				(serverPortfolio != null) -> {
 					serverPortfolio
 				}
+
 				(cachedPortfolio != null) -> {
 					Log.w(TAG, "Using outdated portfolio from cache.")
 
 					cachedPortfolio
 				}
+
 				else -> {
 					Log.w(TAG, "Unable to obtain any portfolio.")
 
@@ -55,6 +57,7 @@ class PortfolioDao(private val preferences: SharedPreferences) {
 					this
 				}
 			}
+
 			is PortfolioRetrievalResult.ConnectionError,
 			is PortfolioRetrievalResult.HttpError,
 			is PortfolioRetrievalResult.DecodingError,
