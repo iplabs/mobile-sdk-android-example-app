@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import de.iplabs.mobile_sdk.portfolio.Product
@@ -16,6 +17,7 @@ import de.iplabs.mobile_sdk_example_app.databinding.FragmentSelectionBinding
 import de.iplabs.mobile_sdk_example_app.ui.selection.ProductsView
 import de.iplabs.mobile_sdk_example_app.viewmodels.SelectionViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class SelectionFragment : Fragment() {
 	private var _binding: FragmentSelectionBinding? = null
@@ -46,39 +48,41 @@ class SelectionFragment : Fragment() {
 			fragment = this
 		)
 
-		val productsFlow = viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-			viewModel.statePortfolio
-				.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-				.collectLatest { portfolio ->
-					val products = portfolio?.products?.filter {
-						it.id !in Configuration.excludedProductIds
-					}
+		lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				viewModel.statePortfolio
+					.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+					.collectLatest { portfolio ->
+						val products = portfolio?.products?.filter {
+							it.id !in Configuration.excludedProductIds
+						}
 
-					productsRecyclerView.setProducts(products ?: emptyList())
+						productsRecyclerView.setProducts(products ?: emptyList())
 
-					binding.apply {
-						when (products?.size) {
-							null -> {
-								productsLoadingGroup.visibility = View.INVISIBLE
-								productList.visibility = View.INVISIBLE
-								loadingSelectionFailedGroup.visibility = View.VISIBLE
-							}
-							0 -> {
-								loadingSelectionFailedGroup.visibility = View.INVISIBLE
-								productList.visibility = View.INVISIBLE
-								productsLoadingGroup.visibility = View.VISIBLE
-							}
-							else -> {
-								loadingSelectionFailedGroup.visibility = View.INVISIBLE
-								productsLoadingGroup.visibility = View.INVISIBLE
-								productList.visibility = View.VISIBLE
+						binding.apply {
+							when (products?.size) {
+								null -> {
+									productsLoadingGroup.visibility = View.INVISIBLE
+									productList.visibility = View.INVISIBLE
+									loadingSelectionFailedGroup.visibility = View.VISIBLE
+								}
+
+								0 -> {
+									loadingSelectionFailedGroup.visibility = View.INVISIBLE
+									productList.visibility = View.INVISIBLE
+									productsLoadingGroup.visibility = View.VISIBLE
+								}
+
+								else -> {
+									loadingSelectionFailedGroup.visibility = View.INVISIBLE
+									productsLoadingGroup.visibility = View.INVISIBLE
+									productList.visibility = View.VISIBLE
+								}
 							}
 						}
 					}
-				}
+			}
 		}
-
-		productsFlow.start()
 	}
 
 	override fun onDestroyView() {

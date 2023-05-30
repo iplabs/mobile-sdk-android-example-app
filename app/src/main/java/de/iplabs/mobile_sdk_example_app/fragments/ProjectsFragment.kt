@@ -12,7 +12,9 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -88,15 +90,19 @@ class ProjectsFragment : Fragment() {
 			fragment = this
 		)
 
-		viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-			viewModel.projects.collectLatest {
-				projectsRecyclerView.setProjects(it)
+		lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				viewModel.projects.collectLatest {
+					projectsRecyclerView.setProjects(it)
+				}
 			}
 		}
 
-		viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-			mainActivityViewModel.user.collectLatest {
-				viewModel.retrieveAllProjects(sessionId = it?.sessionId)
+		lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				mainActivityViewModel.user.collectLatest {
+					viewModel.retrieveAllProjects(sessionId = it?.sessionId)
+				}
 			}
 		}
 	}

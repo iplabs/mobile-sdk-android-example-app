@@ -10,7 +10,9 @@ import androidx.appcompat.view.menu.MenuPopupHelper
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -27,6 +29,7 @@ import de.iplabs.mobile_sdk_example_app.ui.cart.CartItemsView
 import de.iplabs.mobile_sdk_example_app.viewmodels.MainActivityViewModel
 import de.iplabs.mobile_sdk_example_app.viewmodels.MainActivityViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.io.File
 
 class CartFragment : Fragment() {
@@ -75,9 +78,11 @@ class CartFragment : Fragment() {
 			fragment = this
 		)
 
-		viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-			mainActivityViewModel.getCartItems().collectLatest {
-				cartItemsRecyclerView.setItems(it)
+		lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				mainActivityViewModel.getCartItems().collectLatest {
+					cartItemsRecyclerView.setItems(it)
+				}
 			}
 		}
 

@@ -14,7 +14,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -196,11 +198,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 			val badge = it.findViewById<TextView>(R.id.cart_badge)
 
-			lifecycleScope.launchWhenStarted {
-				viewModel.getCartItemCount().collectLatest { itemCount ->
-					with(badge) {
-						visibility = if (itemCount != 0) View.VISIBLE else View.GONE
-						text = if (itemCount < 100) itemCount.toString() else "99+"
+			lifecycleScope.launch {
+				lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+					viewModel.getCartItemCount().collectLatest { itemCount ->
+						with(badge) {
+							visibility = if (itemCount != 0) View.VISIBLE else View.GONE
+							text = if (itemCount < 100) itemCount.toString() else "99+"
+						}
 					}
 				}
 			}
