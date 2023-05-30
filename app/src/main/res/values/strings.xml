@@ -13,6 +13,7 @@
 	<string name="projects_fragment_title">Saved Projects</string>
 	<string name="order_overview_fragment_title">Order Overview</string>
 	<string name="order_confirmation_fragment_title">Order Confirmation</string>
+	<string name="about_fragment_title">About…</string>
 
 	<string name="login_and_registration">Login / Registration</string>
 
@@ -85,4 +86,9 @@
 	<string name="done_description">Order placed successfully</string>
 	<string name="back_to_home">Back to start page</string>
 	<string name="cart_reminder">No worries – products already designed will remain in your cart for later.</string>
+	<string name="licenses_heading">Third Party Component Licenses</string>
+	<string name="licenses_description">This application makes use of a few open source third party software components. Please take note of these components and their licenses:</string>
+	<string name="license_heading">%1$s %2$s</string>
+	<string name="license_vendor">by %1$s</string>
+	<string name="license_link">↗️ &lt;a href="%1$s">Visit project website&lt;/a></string>
 </resources>

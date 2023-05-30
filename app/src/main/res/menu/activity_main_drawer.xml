@@ -25,4 +25,13 @@
 			android:icon="@drawable/icon_saved_projects"
 			android:title="@string/projects_fragment_title" />
 	</group>
+
+	<group
+		android:id="@+id/meta_nav_targets"
+		android:checkableBehavior="single">
+		<item
+			android:id="@+id/action_global_nav_about"
+			android:icon="@drawable/icon_about"
+			android:title="@string/about_fragment_title" />
+	</group>
 </menu>

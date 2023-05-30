@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/fragment_background"
+	tools:context=".MainActivity">
+
+	<ScrollView
+		android:id="@+id/license_scroller"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fadingEdgeLength="16dp"
+		android:requiresFadingEdge="vertical"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<LinearLayout
+			android:id="@+id/third_party_component_licenses"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:paddingHorizontal="16dp"
+			android:paddingVertical="8dp">
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginVertical="8dp"
+				android:text="@string/licenses_heading"
+				android:textSize="22sp"
+				android:textStyle="bold" />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="8dp"
+				android:text="@string/licenses_description"
+				android:textSize="16sp" />
+		</LinearLayout>
+	</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
