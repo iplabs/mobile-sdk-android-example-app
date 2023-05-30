@@ -3,6 +3,16 @@
 
 	<uses-permission android:name="android.permission.INTERNET" />
 
+	<uses-permission android:name="android.permission.CAMERA" />
+
+	<uses-feature
+		android:name="android.hardware.camera"
+		android:required="false" />
+
+	<uses-feature
+		android:name="android.hardware.camera.ar"
+		android:required="false" />
+
 	<application
 		android:allowBackup="true"
 		android:fullBackupOnly="true"
@@ -22,5 +32,9 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+
+		<meta-data
+			android:name="com.google.ar.core"
+			android:value="optional" />
 	</application>
 </manifest>
