@@ -1,6 +1,6 @@
 plugins {
 	id 'com.android.application'
-	id 'kotlin-android'
+	id 'org.jetbrains.kotlin.android'
 	id 'kotlin-kapt'
 	id 'androidx.navigation.safeargs.kotlin'
 	id 'org.jetbrains.kotlin.plugin.serialization'
@@ -86,22 +86,22 @@ android {
 }
 
 ext {
-	lifecycleVersion = '2.5.1'
+	lifecycleVersion = '2.6.1'
 }
 
 dependencies {
 	implementation 'androidx.appcompat:appcompat:1.6.1'
 	implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-	implementation 'androidx.core:core-ktx:1.9.0'
+	implementation 'androidx.core:core-ktx:1.10.1'
 	implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 	implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 	implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.navigationVersion"
 	implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.navigationVersion"
 	implementation 'androidx.preference:preference-ktx:1.2.0'
-	implementation 'androidx.webkit:webkit:1.6.0'
-	implementation 'com.amplitude:analytics-android:1.6.1'
-	implementation 'com.google.android.material:material:1.8.0'
-	implementation 'de.iplabs:mobile-sdk:1.1.0'
+	implementation 'androidx.webkit:webkit:1.6.1'
+	implementation 'com.amplitude:analytics-android:1.8.2'
+	implementation 'com.google.android.material:material:1.9.0'
+	implementation 'de.iplabs:mobile-sdk:1.2.0'
 	implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.4.0'
-	implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
+	implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
 }

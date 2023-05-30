@@ -6,12 +6,12 @@ buildscript {
 
 	ext {
 		navigationVersion = '2.5.3'
-		kotlinLibrariesVersion = '1.8.0'
+		kotlinLibrariesVersion = '1.8.21'
 	}
 
 	dependencies {
 		classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
-		classpath 'com.android.tools.build:gradle:7.4.1'
+		classpath 'com.android.tools.build:gradle:8.0.1'
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinLibrariesVersion"
 		classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlinLibrariesVersion"
 	}
