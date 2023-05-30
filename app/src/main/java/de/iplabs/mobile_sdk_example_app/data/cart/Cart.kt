@@ -5,8 +5,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 object Cart {
 	private var _items = MutableStateFlow<MutableList<CartItem>>(mutableListOf())
-
-	fun getItems() = _items.asStateFlow()
+	val items = _items.asStateFlow()
 
 	fun addItem(item: CartItem) {
 		_items.value = (_items.value + item).toMutableList()

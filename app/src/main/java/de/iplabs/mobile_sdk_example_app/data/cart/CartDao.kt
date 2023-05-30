@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class CartDao(private val cart: Cart) {
-	private var _itemCount = MutableStateFlow(getItems().value.size)
+	private var _itemCount = MutableStateFlow(0)
 	private var _isEmpty = MutableStateFlow(getItemCount().value < 1)
-	private var _totalPrice = MutableStateFlow(calculateTotalPrice())
+	private var _totalPrice = MutableStateFlow(0.0)
 
-	fun getItems(): StateFlow<List<CartItem>> = cart.getItems()
+	fun getItems(): StateFlow<List<CartItem>> = cart.items
 
 	fun getItemCount(): StateFlow<Int> = _itemCount.asStateFlow()
 
@@ -25,8 +25,6 @@ class CartDao(private val cart: Cart) {
 		when (val itemIndex = getItemIndex(item = item)) {
 			-1 -> {
 				cart.addItem(item = item)
-
-				_itemCount.value = _itemCount.value + 1
 			}
 			else -> {
 				val originalQuantity = getItems().value[itemIndex].quantity
@@ -35,28 +33,31 @@ class CartDao(private val cart: Cart) {
 			}
 		}
 
+		recalculateTotalItemCount()
 		_isEmpty.value = false
-		_totalPrice.value = calculateTotalPrice()
+		recalculateTotalPrice()
 	}
 
 	fun increaseItemQuantity(item: CartItem) {
 		cart.increaseItemQuantity(item = item)
 
-		_totalPrice.value = calculateTotalPrice()
+		recalculateTotalItemCount()
+		recalculateTotalPrice()
 	}
 
 	fun decreaseItemQuantity(item: CartItem) {
 		cart.decreaseItemQuantity(item = item)
 
-		_totalPrice.value = calculateTotalPrice()
+		recalculateTotalItemCount()
+		recalculateTotalPrice()
 	}
 
 	fun removeItem(item: CartItem) {
 		cart.removeItem(item = item)
 
-		_itemCount.value = _itemCount.value - 1
+		recalculateTotalItemCount()
 		_isEmpty.value = _itemCount.value < 1
-		_totalPrice.value = calculateTotalPrice()
+		recalculateTotalPrice()
 	}
 
 	suspend fun placeOrder(sessionId: String, externalCartServiceKey: String): OrderResult {
@@ -86,8 +87,14 @@ class CartDao(private val cart: Cart) {
 		return getItems().value.indexOfFirst { it.cartProject.id == item.cartProject.id }
 	}
 
-	private fun calculateTotalPrice(): Double {
-		return getItems().value.map {
+	private fun recalculateTotalItemCount() {
+		_itemCount.value = getItems().value.fold(0) { totalItemCount, currentCartItem ->
+			totalItemCount + currentCartItem.quantity
+		}
+	}
+
+	private fun recalculateTotalPrice() {
+		_totalPrice.value = getItems().value.map {
 			it.totalPrice
 		}.fold(0.0) { total_price, item_price ->
 			total_price + item_price
@@ -97,8 +104,8 @@ class CartDao(private val cart: Cart) {
 	private fun clear() {
 		cart.clear()
 
-		_itemCount.value = 0
+		recalculateTotalItemCount()
 		_isEmpty.value = true
-		_totalPrice.value = 0.0
+		recalculateTotalPrice()
 	}
 }
