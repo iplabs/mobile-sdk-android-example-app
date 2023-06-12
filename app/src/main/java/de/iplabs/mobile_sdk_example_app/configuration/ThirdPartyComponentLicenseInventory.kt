@@ -110,7 +110,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 	),
 	ThirdPartyComponentLicense(
 		licenseName = "Apache License, Version 2.0",
-		licenseFile = de.iplabs.mobile_sdk.R.raw.ipl_sdk_license_material_design_icons,
+		licenseFile = R.raw.license_material_design_icons,
 		componentName = "Material Design Icons",
 		componentVersion = "4.0.0",
 		componentVendor = "Google LLC",
