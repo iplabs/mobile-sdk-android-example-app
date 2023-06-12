@@ -8,7 +8,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "MIT License",
 		licenseFile = R.raw.license_com_amplitude_analytics_android,
 		componentName = "Amplitude Android Kotlin SDK",
-		componentVersion = "1.8.2",
+		componentVersion = "1.9.1",
 		componentVendor = "Amplitude, Inc.",
 		componentLink = "https://github.com/amplitude/Amplitude-Kotlin/"
 	),
@@ -32,7 +32,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_com_android_tools_build_gradle,
 		componentName = "Android Gradle Plugin",
-		componentVersion = "8.0.1",
+		componentVersion = "8.0.2",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/studio/build/"
 	),
@@ -40,7 +40,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_androidx_navigation_navigation_fragment_ktx,
 		componentName = "Android Navigation Fragment Kotlin Extensions",
-		componentVersion = "2.5.3",
+		componentVersion = "2.6.0",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/jetpack/androidx/releases/navigation/"
 	),
@@ -48,7 +48,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_androidx_navigation_navigation_safe_args_gradle_plugin,
 		componentName = "Android Navigation TypeSafe Arguments Gradle Plugin",
-		componentVersion = "2.5.3",
+		componentVersion = "2.6.0",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/jetpack/androidx/releases/navigation/"
 	),
@@ -56,7 +56,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_androidx_navigation_navigation_ui_ktx,
 		componentName = "Android Navigation UI Kotlin Extensions",
-		componentVersion = "2.5.3",
+		componentVersion = "2.6.0",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/jetpack/androidx/releases/navigation/"
 	),
@@ -120,7 +120,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_androidx_webkit_webkit,
 		componentName = "WebView Support Library",
-		componentVersion = "1.6.1",
+		componentVersion = "1.7.0",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/jetpack/androidx/releases/webkit/"
 	)
