@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/license_scroller"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fadingEdgeLength="16dp"
+	android:requiresFadingEdge="vertical"
+	tools:context=".MainActivity">
+
+	<LinearLayout
+		android:id="@+id/third_party_component_licenses"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingHorizontal="16dp"
+		android:paddingVertical="8dp">
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginVertical="8dp"
+			android:text="@string/licenses_heading"
+			android:textSize="22sp"
+			android:textStyle="bold" />
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
+			android:text="@string/licenses_description"
+			android:textSize="16sp" />
+
+		<LinearLayout
+			android:id="@+id/licenses_loading_group"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:paddingHorizontal="16dp"
+			android:paddingVertical="8dp">
+
+			<ProgressBar
+				android:id="@+id/licenses_loading_spinner"
+				style="?android:attr/progressBarStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="24dp"
+				android:layout_marginBottom="4dp" />
+
+			<TextView
+				android:id="@+id/licenses_loading_label"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="4dp"
+				android:text="@string/licenses_loading"
+				android:textAlignment="center"
+				android:textSize="16sp" />
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>

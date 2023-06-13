@@ -32,6 +32,6 @@
 		<item
 			android:id="@+id/action_global_nav_about"
 			android:icon="@drawable/icon_about"
-			android:title="@string/about_fragment_title" />
+			android:title="@string/legal_terms_fragment_title" />
 	</group>
 </menu>

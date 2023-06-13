@@ -13,7 +13,10 @@
 	<string name="projects_fragment_title">Saved Projects</string>
 	<string name="order_overview_fragment_title">Order Overview</string>
 	<string name="order_confirmation_fragment_title">Order Confirmation</string>
-	<string name="about_fragment_title">About…</string>
+	<string name="legal_terms_fragment_title">Legal &amp; Terms</string>
+	<string name="about_fragment_title">About</string>
+	<string name="privacy_fragment_title">Privacy</string>
+	<string name="licenses_fragment_title">Licenses</string>
 
 	<string name="login_and_registration">Login / Registration</string>
 
@@ -86,8 +89,13 @@
 	<string name="done_description">Order placed successfully</string>
 	<string name="back_to_home">Back to start page</string>
 	<string name="cart_reminder">No worries – products already designed will remain in your cart for later.</string>
+	<string name="about_app_heading">About This App</string>
+	<string name="about_app_content">© Copyright ip.labs GmbH&lt;br>Schwertberger Straße 14–16&lt;br>53177 Bonn&lt;br>Deutschland&lt;br>&lt;br>All rights reserved.&lt;br>&lt;br>↗️ &lt;a href="https://www.iplabs.com/">https://www.iplabs.com/&lt;/a></string>
+	<string name="privacy_heading">Google Play Services for AR (ARCore) User Privacy</string>
+	<string name="privacy_content">This application runs on Google Play Services for AR (ARCore), which is provided by Google and governed by the ↗️ &lt;a href="https://policies.google.com/privacy">Google Privacy Policy&lt;a>.</string>
 	<string name="licenses_heading">Third Party Component Licenses</string>
 	<string name="licenses_description">This application makes use of a few open source third party software components. Please take note of these components and their licenses:</string>
+	<string name="licenses_loading">Loading licenses…</string>
 	<string name="license_heading">%1$s %2$s</string>
 	<string name="license_vendor">by %1$s</string>
 	<string name="license_link">↗️ &lt;a href="%1$s">Visit project website&lt;/a></string>

@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import de.iplabs.mobile_sdk_example_app.databinding.FragmentAboutBinding
+import de.iplabs.mobile_sdk_example_app.databinding.FragmentPrivacyBinding
 
-class AboutFragment : Fragment() {
-	private var _binding: FragmentAboutBinding? = null
+class PrivacyFragment : Fragment() {
+	private var _binding: FragmentPrivacyBinding? = null
 	private val binding get() = _binding!!
 
 	override fun onCreateView(
@@ -18,9 +18,9 @@ class AboutFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		_binding = FragmentAboutBinding.inflate(inflater, container, false)
+		_binding = FragmentPrivacyBinding.inflate(inflater, container, false)
 
-		binding.aboutAppText.apply {
+		binding.arcorePrivacyText.apply {
 			text = Html.fromHtml(
 				this.text.toString(),
 				Html.FROM_HTML_MODE_LEGACY
