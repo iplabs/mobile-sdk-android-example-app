@@ -397,7 +397,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 		if (amplitudeAnalytics == null) {
 			Log.d(
-				"IplabsMobileSdk",
+				"IplabsMobileSdkExampleApp",
 				"User tracking will not be available, because no Amplitude API key was defined."
 			)
 		}

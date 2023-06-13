@@ -12,10 +12,10 @@ plugins {
 	- “major”, “minor”, and “patch” support ints up to 99
 */
 LinkedHashMap<String, Serializable> semanticVersion = [
-	'scheme'   : 0,
-	'major'    : 1,
-	'minor'    : 2,
-	'patch'    : 0
+	'scheme': 0,
+	'major' : 1,
+	'minor' : 2,
+	'patch' : 1
 ]
 
 Properties loadSecretsFromFile(String filePath) {
