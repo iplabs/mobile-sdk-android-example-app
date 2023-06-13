@@ -2,7 +2,7 @@
 
 This is an example app to demonstrate the usage of the [ip.labs Mobile SDK](https://www.iplabs.com/photo-commerce-mobile-sdk/) on Android.
 
-Please refer to the [detailed documentation](http://mobile-sdk-docs.s3-website.eu-central-1.amazonaws.com/) for further information on how to integrate the ip.labs Mobile SDK into your app.
+Please refer to the [detailed documentation](https://docs.sdk.iplabs.io/) for further information on how to integrate the ip.labs Mobile SDK into your app.
 
 ## Development Setup
 
