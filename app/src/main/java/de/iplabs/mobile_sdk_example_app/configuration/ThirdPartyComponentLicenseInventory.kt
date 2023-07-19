@@ -86,6 +86,14 @@ val thirdPartyComponentLicenseInventory = listOf(
 	),
 	ThirdPartyComponentLicense(
 		licenseName = "Apache License, Version 2.0",
+		licenseFile = R.raw.license_org_jetbrains_kotlin_kotlin_serialization,
+		componentName = "Kotlin Serialization",
+		componentVersion = "1.8.22",
+		componentVendor = "JetBrains s.r.o.",
+		componentLink = "https://github.com/Kotlin/kotlinx.serialization/"
+	),
+	ThirdPartyComponentLicense(
+		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_org_jetbrains_kotlin_android,
 		componentName = "Kotlin Standard Library for JVM",
 		componentVersion = "1.8.21",
