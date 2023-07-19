@@ -15,7 +15,7 @@ This folder is an [Android Studio](https://developer.android.com/studio/) projec
 When first checking out this repository, building, and launching the app, the features user login, product ordering, and user tracking will not be available. This is due to the fact, that all of these functionalities each require a secret that you have to configure locally in order for them to be activated in a regular fashion. There are two ways to achieve this:
 
 * Store the secrets in your system’s environment variables. For more information please refer to the documentation of your specific platform.
-* Put the secrets in a special file called `secrets.properties` that you have to create in the root of this project with key-value pairs in it (one per line, key and value separated by just an equals sign, values double-quoted).
+* Put the secrets in a special file called `local.properties` that you have to create in the root of this project with key-value pairs in it (one per line, key and value separated by just an equals sign, values double-quoted).
 
 ⚠️ *If you choose the latter variant: Please create the file exactly as described, so it is excluded from committing and pushing via Git. Never let any of the secrets become public.*
 
