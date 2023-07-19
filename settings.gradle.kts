@@ -4,12 +4,6 @@ dependencyResolutionManagement {
 	@Suppress("UnstableApiUsage")
 	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 
-	versionCatalogs {
-		create("appLibs") {
-			from(files("gradle/app-libs.versions.toml"))
-		}
-	}
-
 	@Suppress("UnstableApiUsage")
 	repositories {
 		maven {

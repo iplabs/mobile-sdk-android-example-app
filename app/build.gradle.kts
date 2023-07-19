@@ -1,11 +1,11 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
-	id(appLibs.plugins.android.application.get().pluginId)
-	id(appLibs.plugins.kotlin.android.get().pluginId)
-	id(appLibs.plugins.kotlin.kapt.get().pluginId)
-	alias(appLibs.plugins.kotlin.serialization)
-	id(appLibs.plugins.androidx.navigation.safeargs.get().pluginId)
+	id(libs.plugins.android.application.get().pluginId)
+	id(libs.plugins.kotlin.android.get().pluginId)
+	id(libs.plugins.kotlin.kapt.get().pluginId)
+	alias(libs.plugins.kotlin.serialization)
+	id(libs.plugins.androidx.navigation.safeargs.get().pluginId)
 }
 
 enum class ReleaseChannel(val channelName: String) {
@@ -146,20 +146,20 @@ android {
 }
 
 dependencies {
-	implementation(appLibs.amplitude.analytics)
-	implementation(appLibs.android.material)
-	implementation(appLibs.androidx.appcompat)
-	implementation(appLibs.androidx.constraintlayout)
-	implementation(appLibs.androidx.core)
-	implementation(appLibs.androidx.lifecycle.livedata)
-	implementation(appLibs.androidx.lifecycle.viewmodel)
-	implementation(appLibs.androidx.navigation.fragment)
-	implementation(appLibs.androidx.navigation.ui)
-	implementation(appLibs.androidx.preference)
-	implementation(appLibs.androidx.webkit)
-	implementation(appLibs.kotlinx.datetime)
-	implementation(appLibs.kotlinx.serialization.json)
-	implementation(appLibs.iplabs.mobile.sdk)
+	implementation(libs.amplitude.analytics)
+	implementation(libs.android.material)
+	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.constraintlayout)
+	implementation(libs.androidx.core)
+	implementation(libs.androidx.lifecycle.livedata)
+	implementation(libs.androidx.lifecycle.viewmodel)
+	implementation(libs.androidx.navigation.fragment)
+	implementation(libs.androidx.navigation.ui)
+	implementation(libs.androidx.preference)
+	implementation(libs.androidx.webkit)
+	implementation(libs.kotlinx.datetime)
+	implementation(libs.kotlinx.serialization.json)
+	implementation(libs.iplabs.mobile.sdk)
 }
 
 fun loadSecretFromFile(key: String): String? {
