@@ -34,6 +34,6 @@ You can also just define a subset of these secret and leave others out. The valu
 
 ## Disclaimer
 
-The code in this repository serves demonstrational purposes only and is not meant to be used in “real-world” apps “as is”. It does not necessarily reflect any of Google’s best practices, general concerns for GDPR, and other data protection laws compliance, latest dependency update states etc. Use at your own risk.
+The code in this repository serves demonstrative purposes only and is not meant to be used in “real-world” apps “as is”. It does not necessarily reflect any of Google’s best practices, general concerns for GDPR, and other data protection laws compliance, latest dependency update states etc. Use at your own risk.
 
 *[ECS]: External Cart Service
