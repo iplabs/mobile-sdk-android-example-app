@@ -8,7 +8,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "MIT License",
 		licenseFile = R.raw.license_com_amplitude_analytics_android,
 		componentName = "Amplitude Android Kotlin SDK",
-		componentVersion = "1.9.1",
+		componentVersion = "1.9.2",
 		componentVendor = "Amplitude, Inc.",
 		componentLink = "https://github.com/amplitude/Amplitude-Kotlin/"
 	),
@@ -80,7 +80,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_org_jetbrains_kotlin_kotlin_gradle_plugin,
 		componentName = "Kotlin Gradle Plugin",
-		componentVersion = "1.8.21",
+		componentVersion = "1.8.22",
 		componentVendor = "JetBrains s.r.o.",
 		componentLink = "https://kotlinlang.org/"
 	),
@@ -96,7 +96,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_org_jetbrains_kotlin_android,
 		componentName = "Kotlin Standard Library for JVM",
-		componentVersion = "1.8.21",
+		componentVersion = "1.8.22",
 		componentVendor = "JetBrains s.r.o.",
 		componentLink = "https://github.com/JetBrains/kotlin/"
 	),
