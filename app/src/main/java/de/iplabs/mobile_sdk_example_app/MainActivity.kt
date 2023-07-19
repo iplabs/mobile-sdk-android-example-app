@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		val sdkCacheLocation = File(FileCache.directory, "iplabs-mobile-sdk").apply { mkdir() }
 
 		when (
-			IplabsMobileSdk.initialize(
+			val initializationResult = IplabsMobileSdk.initialize(
 				operatorId = Configuration.operatorId,
 				locale = Configuration.portfolioLocale.isoCode,
 				baseUrl = Configuration.baseUrl,
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 			is InitializationResult.UnknownError -> {
 				Log.e(
 					"MainActivity",
-					"An unknown error occurred during initialization of the ip.labs Mobile SDK."
+					"An unknown error occurred during initialization of the ip.labs Mobile SDK: ${initializationResult.exception}"
 				)
 			}
 		}
