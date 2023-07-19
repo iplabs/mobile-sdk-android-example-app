@@ -4,6 +4,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 object Cart {
+	// Underscore warning doesn’t make sense here, so it’s being suppressed, cf.
+	// https://discuss.kotlinlang.org/t/object-or-top-level-property-name-warning/6621 or
+	// https://youtrack.jetbrains.com/issue/KTIJ-18148/Dont-show-Object-or-top-level-property-name-should-not-start-with-an-underscore-for-private-properties
+	@Suppress("ObjectPropertyName")
 	private var _items = MutableStateFlow<MutableList<CartItem>>(mutableListOf())
 	val items = _items.asStateFlow()
 

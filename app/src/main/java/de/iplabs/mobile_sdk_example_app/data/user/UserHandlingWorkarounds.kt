@@ -7,7 +7,6 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
-@Suppress("BlockingMethodInNonBlockingContext")
 suspend fun addUser(userInfo: UserInfo, backendUrl: URL) {
 	withContext(Dispatchers.IO) {
 		with(backendUrl.openConnection() as HttpURLConnection) {
