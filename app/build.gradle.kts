@@ -92,12 +92,12 @@ val version = SemanticVersion(
 )
 
 android {
-	namespace = "de.iplabs.mobile_sdk_demo_app"
+	namespace = "de.iplabs.mobile_sdk_example_app"
 
 	compileSdk = 33
 
 	defaultConfig {
-		applicationId = "de.iplabs.mobile_sdk_demo_app"
+		applicationId = "de.iplabs.mobile_sdk_example_app"
 
 		minSdk = 29
 		targetSdk = 33
