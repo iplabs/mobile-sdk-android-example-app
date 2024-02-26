@@ -84,8 +84,8 @@ data class SemanticVersion(
 
 val version = SemanticVersion(
 	scheme = 0,
-	major = 1,
-	minor = 3,
+	major = 2,
+	minor = 0,
 	patch = 0,
 	channel = ReleaseChannel.RELEASE,
 	iteration = 0

@@ -8,7 +8,7 @@ Please refer to the [detailed documentation](https://docs.sdk.iplabs.io/) for fu
 
 ### Opening the Project
 
-This folder is an [Android Studio](https://developer.android.com/studio/) project and should be imported with this IDE to check and run the app. The main language used is [Kotlin](https://kotlinlang.org/).
+This folder is an [Android Studio](https://developer.android.com/studio/) project and should be imported with the latest version of this IDE to check and run the app. The main language used is [Kotlin](https://kotlinlang.org/) and [JDK 20](https://www.oracle.com/java/technologies/javase/jdk20-archive-downloads.html) must be installed.
 
 ### Configuring Secrets
 
