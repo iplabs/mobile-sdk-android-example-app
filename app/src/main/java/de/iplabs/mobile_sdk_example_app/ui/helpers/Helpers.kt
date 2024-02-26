@@ -39,7 +39,7 @@ fun Long.toFileSizeString(precision: Int): String {
 				"${
 					(it.toDouble() / 1024L).toBigDecimal()
 						.setScale(precision, RoundingMode.HALF_EVEN)
-				}  KB"
+				} KB"
 			}
 
 			it < 1073741824 -> {
