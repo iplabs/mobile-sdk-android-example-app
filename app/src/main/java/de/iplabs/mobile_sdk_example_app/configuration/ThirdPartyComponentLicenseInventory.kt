@@ -8,7 +8,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "MIT License",
 		licenseFile = R.raw.license_com_amplitude_analytics_android,
 		componentName = "Amplitude Android Kotlin SDK",
-		componentVersion = "1.9.2",
+		componentVersion = "1.14.0",
 		componentVendor = "Amplitude, Inc.",
 		componentLink = "https://github.com/amplitude/Amplitude-Kotlin/"
 	),
@@ -32,7 +32,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_com_android_tools_build_gradle,
 		componentName = "Android Gradle Plugin",
-		componentVersion = "8.0.2",
+		componentVersion = "8.2.0",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/studio/build/"
 	),
@@ -40,7 +40,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_androidx_navigation_navigation_fragment_ktx,
 		componentName = "Android Navigation Fragment Kotlin Extensions",
-		componentVersion = "2.6.0",
+		componentVersion = "2.7.7",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/jetpack/androidx/releases/navigation/"
 	),
@@ -48,7 +48,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_androidx_navigation_navigation_safe_args_gradle_plugin,
 		componentName = "Android Navigation TypeSafe Arguments Gradle Plugin",
-		componentVersion = "2.6.0",
+		componentVersion = "2.7.7",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/jetpack/androidx/releases/navigation/"
 	),
@@ -56,7 +56,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_androidx_navigation_navigation_ui_ktx,
 		componentName = "Android Navigation UI Kotlin Extensions",
-		componentVersion = "2.6.0",
+		componentVersion = "2.7.7",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/jetpack/androidx/releases/navigation/"
 	),
@@ -64,7 +64,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_androidx_preference_preference_ktx,
 		componentName = "Android Preferences KTX",
-		componentVersion = "1.2.0",
+		componentVersion = "1.2.1",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/jetpack/androidx/releases/preference/"
 	),
@@ -72,7 +72,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_androidx_core_core_ktx,
 		componentName = "Core Kotlin Extensions",
-		componentVersion = "1.10.1",
+		componentVersion = "1.12.0",
 		componentVendor = "Google LLC",
 		componentLink = "https://developer.android.com/jetpack/androidx/releases/core/"
 	),
@@ -80,7 +80,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_org_jetbrains_kotlin_kotlin_gradle_plugin,
 		componentName = "Kotlin Gradle Plugin",
-		componentVersion = "1.8.22",
+		componentVersion = "1.9.22",
 		componentVendor = "JetBrains s.r.o.",
 		componentLink = "https://kotlinlang.org/"
 	),
@@ -88,7 +88,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_org_jetbrains_kotlin_kotlin_serialization,
 		componentName = "Kotlin Serialization",
-		componentVersion = "1.8.22",
+		componentVersion = "1.9.22",
 		componentVendor = "JetBrains s.r.o.",
 		componentLink = "https://github.com/Kotlin/kotlinx.serialization/"
 	),
@@ -96,7 +96,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_org_jetbrains_kotlin_android,
 		componentName = "Kotlin Standard Library for JVM",
-		componentVersion = "1.8.22",
+		componentVersion = "1.9.22",
 		componentVendor = "JetBrains s.r.o.",
 		componentLink = "https://github.com/JetBrains/kotlin/"
 	),
@@ -104,7 +104,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_org_jetbrains_kotlinx_kotlinx_datetime,
 		componentName = "Kotlinx DateTime",
-		componentVersion = "0.4.0",
+		componentVersion = "0.5.0",
 		componentVendor = "JetBrains s.r.o.",
 		componentLink = "https://github.com/Kotlin/kotlinx-datetime/"
 	),
@@ -112,7 +112,7 @@ val thirdPartyComponentLicenseInventory = listOf(
 		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_com_google_android_material_material,
 		componentName = "Material Components for Android",
-		componentVersion = "1.9.0",
+		componentVersion = "1.11.0",
 		componentVendor = "Google LLC",
 		componentLink = "https://github.com/material-components/material-components-android/"
 	),

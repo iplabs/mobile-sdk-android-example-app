@@ -6,13 +6,13 @@ dependencyResolutionManagement {
 
 	@Suppress("UnstableApiUsage")
 	repositories {
+		google()
+		mavenCentral()
+
 		maven {
 			name = "AmazonS3Releases"
 			url = URI("https://s3.eu-central-1.amazonaws.com/mobile-sdk/android/releases")
 		}
-
-		google()
-		mavenCentral()
 	}
 }
 

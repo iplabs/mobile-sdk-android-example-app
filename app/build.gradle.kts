@@ -94,16 +94,18 @@ val version = SemanticVersion(
 android {
 	namespace = "de.iplabs.mobile_sdk_example_app"
 
-	compileSdk = 33
+	compileSdk = 34
 
 	defaultConfig {
 		applicationId = "de.iplabs.mobile_sdk_example_app"
 
 		minSdk = 29
-		targetSdk = 33
+		targetSdk = 34
 
 		versionCode = version.code
+		buildConfigField("String", "VERSION_CODE", "\"${version.code}\"")
 		versionName = version.name
+		buildConfigField("String", "VERSION_NAME", "\"${version.name}\"")
 
 		val secretKeys = listOf(
 			"IPLABS_MOBILE_SDK_ADD_USER_INFO_URL",
@@ -119,29 +121,28 @@ android {
 
 	buildTypes {
 		getByName("release") {
-			isMinifyEnabled = false
+			isShrinkResources = true
+			isMinifyEnabled = true
 
 			proguardFiles(
-				@Suppress("UnstableApiUsage")
 				getDefaultProguardFile("proguard-android-optimize.txt"),
 				"proguard-rules.pro"
 			)
 		}
 	}
 
-	@Suppress("UnstableApiUsage")
 	buildFeatures {
 		dataBinding = true
 		viewBinding = true
 	}
 
 	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
+		sourceCompatibility = JavaVersion.VERSION_20
+		targetCompatibility = JavaVersion.VERSION_20
 	}
 
 	kotlinOptions {
-		jvmTarget = "17"
+		jvmTarget = "20"
 	}
 }
 
