@@ -7,9 +7,9 @@
 		android:id="@+id/general_nav_targets"
 		android:checkableBehavior="single">
 		<item
-			android:id="@+id/nav_selection"
-			android:icon="@drawable/icon_menu_selection"
-			android:title="@string/selection_fragment_title" />
+			android:id="@+id/nav_product_selection"
+			android:icon="@drawable/icon_menu_product_selection"
+			android:title="@string/product_selection_fragment_title" />
 
 		<item
 			android:id="@+id/nav_cart"

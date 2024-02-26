@@ -1,24 +1,24 @@
 package de.iplabs.mobile_sdk_example_app.data.storage
 
 import de.iplabs.mobile_sdk.IplabsMobileSdk
-import de.iplabs.mobile_sdk.OperationResult.CloudProjectModificationResult
-import de.iplabs.mobile_sdk.OperationResult.CloudProjectsRetrievalResult
-import de.iplabs.mobile_sdk.projectStorage.Project
+import de.iplabs.mobile_sdk.OperationResult.CloudSavedProjectModificationResult
+import de.iplabs.mobile_sdk.OperationResult.CloudSavedProjectsRetrievalResult
+import de.iplabs.mobile_sdk.project.SavedProject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class CloudProjectsDao : ProjectsDao {
-	override suspend fun retrieveAll(sessionId: String?): List<Project> {
+	override suspend fun retrieveAll(sessionId: String?): List<SavedProject> {
 		require(sessionId != null) { "No session ID provided." }
 
 		val projectsResult = withContext(Dispatchers.IO) {
-			IplabsMobileSdk.retrieveCloudProjects(
+			IplabsMobileSdk.retrieveCloudSavedProjects(
 				sessionId = sessionId
 			)
 		}
 
 		val projects = when (projectsResult) {
-			is CloudProjectsRetrievalResult.Success -> projectsResult.projects
+			is CloudSavedProjectsRetrievalResult.Success -> projectsResult.projects
 			else -> listOf()
 		}
 
@@ -26,14 +26,14 @@ class CloudProjectsDao : ProjectsDao {
 	}
 
 	override suspend fun rename(
-		project: Project,
+		project: SavedProject,
 		newTitle: String,
 		sessionId: String?
-	): CloudProjectModificationResult {
+	): CloudSavedProjectModificationResult {
 		require(sessionId != null) { "No session ID provided." }
 
 		return withContext(Dispatchers.IO) {
-			IplabsMobileSdk.renameCloudProject(
+			IplabsMobileSdk.renameCloudSavedProject(
 				project = project,
 				newTitle = newTitle,
 				sessionId = sessionId
@@ -42,13 +42,13 @@ class CloudProjectsDao : ProjectsDao {
 	}
 
 	override suspend fun remove(
-		project: Project,
+		project: SavedProject,
 		sessionId: String?
-	): CloudProjectModificationResult {
+	): CloudSavedProjectModificationResult {
 		require(sessionId != null) { "No session ID provided." }
 
 		return withContext(Dispatchers.IO) {
-			IplabsMobileSdk.removeCloudProject(project = project, sessionId = sessionId)
+			IplabsMobileSdk.removeCloudSavedProject(project = project, sessionId = sessionId)
 		}
 	}
 }

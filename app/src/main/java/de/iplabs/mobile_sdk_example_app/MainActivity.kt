@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 				locale = Configuration.portfolioLocale.isoCode,
 				baseUrl = Configuration.baseUrl,
 				externalCartServiceBaseUrl = Configuration.externalCartServiceBaseUrl,
-				localProjectsLocation = filesDir,
+				localSavedProjectsLocation = filesDir,
 				translationsSource = Configuration.translationLocale?.let {
 					resources.openRawResource(
 						resources.getIdentifier(
@@ -154,7 +154,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 		userDao = UserDao(sharedPreferences)
 		cartDao = CartDao(cart = Cart)
-		persistedCartDao = PersistedCartDao(persistedCartFile = File(filesDir, "cart.json"))
+		persistedCartDao = PersistedCartDao(
+			persistedCartFile = File(filesDir, Configuration.cartCacheFile)
+		)
 
 		val headerBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 		headerBinding.lifecycleOwner = this
@@ -169,7 +171,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		navController = navHostFragment.navController
 
 		appBarConfiguration = AppBarConfiguration(
-			setOf(R.id.nav_launch, R.id.nav_selection, R.id.nav_editor, R.id.nav_cart),
+			setOf(R.id.nav_launch, R.id.nav_product_selection, R.id.nav_editor, R.id.nav_cart),
 			binding.drawerLayout
 		)
 
@@ -189,12 +191,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		menuItemView?.let {
 			it.setOnClickListener {
 				when (val currentFragment = getActiveFragment()) {
-					is CartFragment -> {}
+					is CartFragment -> Unit
+
 					is EditorFragment -> currentFragment.initiateTerminationRequest(
 						targetDestinationId = R.id.action_global_nav_cart
 					)
 
-					else -> navController.navigate(NavGraphDirections.actionGlobalNavCart())
+					else -> navController.navigate(
+						directions = NavGraphDirections.actionGlobalNavCart()
+					)
 				}
 			}
 
@@ -229,7 +234,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 			false
 		} else {
-			navController.navigate(item.itemId)
+			navController.navigate(resId = item.itemId)
 
 			true
 		}
@@ -412,7 +417,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		try {
 			FileCache.setup(cacheDir)
 		} catch (e: IllegalStateException) {
-			Log.d("Cache", "Reusing existing cache.")
+			Log.d("IplabsMobileSdkExampleApp", "Reusing existing cache.")
 		}
 	}
 

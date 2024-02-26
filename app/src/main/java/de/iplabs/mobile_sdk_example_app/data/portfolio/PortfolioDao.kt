@@ -62,7 +62,10 @@ class PortfolioDao(private val preferences: SharedPreferences) {
 			is PortfolioRetrievalResult.HttpError,
 			is PortfolioRetrievalResult.DecodingError,
 			is PortfolioRetrievalResult.UnknownError -> {
-				Log.w("PortfolioDao", "Unable to retrieve a valid portfolio from the server.")
+				Log.w(
+					"IplabsMobileSdkExampleApp",
+					"Unable to retrieve a valid portfolio from the server."
+				)
 
 				null
 			}
@@ -135,16 +138,15 @@ class PortfolioDao(private val preferences: SharedPreferences) {
 
 	private fun calculateMd5Hash(value: String): String {
 		val digestedValue = MessageDigest.getInstance("MD5").digest(value.toByteArray())
-		val stringBuilder = StringBuilder()
 
-		for (byte in digestedValue) {
-			stringBuilder.append(String.format("%02x", byte))
+		return buildString {
+			for (byte in digestedValue) {
+				append(String.format("%02x", byte))
+			}
 		}
-
-		return stringBuilder.toString()
 	}
 
-	companion object {
+	private companion object {
 		private val TAG: String? = PortfolioDao::class.simpleName
 		private const val TIMESTAMP_PREFERENCE_KEY = "portfolioTimestamp"
 	}

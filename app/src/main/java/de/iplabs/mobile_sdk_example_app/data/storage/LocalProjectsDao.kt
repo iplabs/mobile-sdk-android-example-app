@@ -1,17 +1,17 @@
 package de.iplabs.mobile_sdk_example_app.data.storage
 
 import de.iplabs.mobile_sdk.IplabsMobileSdk
-import de.iplabs.mobile_sdk.OperationResult.LocalProjectModificationResult
-import de.iplabs.mobile_sdk.OperationResult.LocalProjectsRetrievalResult
-import de.iplabs.mobile_sdk.projectStorage.Project
+import de.iplabs.mobile_sdk.OperationResult.LocalSavedProjectModificationResult
+import de.iplabs.mobile_sdk.OperationResult.LocalSavedProjectsRetrievalResult
+import de.iplabs.mobile_sdk.project.SavedProject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LocalProjectsDao : ProjectsDao {
-	override suspend fun retrieveAll(sessionId: String?): List<Project> {
+	override suspend fun retrieveAll(sessionId: String?): List<SavedProject> {
 		val projects =
-			when (val projectsResult = IplabsMobileSdk.retrieveLocalProjects()) {
-				is LocalProjectsRetrievalResult.Success -> projectsResult.projects
+			when (val projectsResult = IplabsMobileSdk.retrieveLocalSavedProjects()) {
+				is LocalSavedProjectsRetrievalResult.Success -> projectsResult.projects
 				else -> listOf()
 			}
 
@@ -19,21 +19,21 @@ class LocalProjectsDao : ProjectsDao {
 	}
 
 	override suspend fun rename(
-		project: Project,
+		project: SavedProject,
 		newTitle: String,
 		sessionId: String?
-	): LocalProjectModificationResult {
+	): LocalSavedProjectModificationResult {
 		return withContext(Dispatchers.IO) {
-			IplabsMobileSdk.renameLocalProject(project = project, newTitle = newTitle)
+			IplabsMobileSdk.renameLocalSavedProject(project = project, newTitle = newTitle)
 		}
 	}
 
 	override suspend fun remove(
-		project: Project,
+		project: SavedProject,
 		sessionId: String?
-	): LocalProjectModificationResult {
+	): LocalSavedProjectModificationResult {
 		return withContext(Dispatchers.IO) {
-			IplabsMobileSdk.removeLocalProject(project = project)
+			IplabsMobileSdk.removeLocalSavedProject(project = project)
 		}
 	}
 }

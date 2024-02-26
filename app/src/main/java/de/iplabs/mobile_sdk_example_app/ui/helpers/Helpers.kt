@@ -7,7 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import de.iplabs.mobile_sdk.portfolio.Product
-import de.iplabs.mobile_sdk.projectStorage.Project
+import de.iplabs.mobile_sdk.project.SavedProject
 import de.iplabs.mobile_sdk_example_app.R
 import de.iplabs.mobile_sdk_example_app.configuration.Configuration
 import kotlinx.datetime.Clock
@@ -103,7 +103,7 @@ fun Product.getImage(fragment: Fragment): Int {
 	}
 }
 
-fun Project.expiresSoon(): Boolean {
+fun SavedProject.expiresSoon(): Boolean {
 	return if (this.expirationDate != null) {
 		val remainingTime = this.expirationDate as Instant - Clock.System.now()
 		remainingTime.inWholeDays < Configuration.projectExpirationWarningPeriodInDays

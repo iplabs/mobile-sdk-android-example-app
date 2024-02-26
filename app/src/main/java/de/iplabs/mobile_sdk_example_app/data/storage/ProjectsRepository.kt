@@ -1,6 +1,6 @@
 package de.iplabs.mobile_sdk_example_app.data.storage
 
-import de.iplabs.mobile_sdk.projectStorage.Project
+import de.iplabs.mobile_sdk.project.SavedProject
 
 object ProjectsRepository {
 	private lateinit var localDao: LocalProjectsDao
@@ -16,7 +16,7 @@ object ProjectsRepository {
 		return this
 	}
 
-	suspend fun retrieveAllProjects(sessionId: String? = null): List<Project> {
+	suspend fun retrieveAllProjects(sessionId: String? = null): List<SavedProject> {
 		val projects = localDao.retrieveAll().toMutableList()
 
 		if (sessionId != null) {

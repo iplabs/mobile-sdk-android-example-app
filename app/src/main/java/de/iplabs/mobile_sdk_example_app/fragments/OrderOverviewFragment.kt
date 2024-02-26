@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
@@ -15,20 +17,20 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.iplabs.mobile_sdk.OperationResult.OrderResult
 import de.iplabs.mobile_sdk_example_app.MainActivity
 import de.iplabs.mobile_sdk_example_app.R
+import de.iplabs.mobile_sdk_example_app.configuration.Configuration
 import de.iplabs.mobile_sdk_example_app.data.cart.Cart
 import de.iplabs.mobile_sdk_example_app.data.cart.CartDao
 import de.iplabs.mobile_sdk_example_app.data.cart.PersistedCartDao
 import de.iplabs.mobile_sdk_example_app.data.user.UserDao
-import de.iplabs.mobile_sdk_example_app.databinding.FragmentOrderOverviewBinding
+import de.iplabs.mobile_sdk_example_app.ui.screens.OrderOverviewScreen
+import de.iplabs.mobile_sdk_example_app.ui.theme.MobileSdkExampleAppTheme
 import de.iplabs.mobile_sdk_example_app.viewmodels.MainActivityViewModel
 import de.iplabs.mobile_sdk_example_app.viewmodels.MainActivityViewModelFactory
+import de.iplabs.mobile_sdk_example_app.viewmodels.OrderOverviewViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 
 class OrderOverviewFragment : Fragment() {
-	private var _binding: FragmentOrderOverviewBinding? = null
-	private val binding get() = _binding!!
-
 	private lateinit var parentActivity: MainActivity
 	private lateinit var userDao: UserDao
 	private lateinit var cartDao: CartDao
@@ -42,6 +44,8 @@ class OrderOverviewFragment : Fragment() {
 		)
 	}
 
+	private val viewModel: OrderOverviewViewModel by viewModels()
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -53,120 +57,138 @@ class OrderOverviewFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		_binding = FragmentOrderOverviewBinding.inflate(inflater, container, false)
-
 		val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 		userDao = UserDao(preferences = sharedPreferences)
 		cartDao = CartDao(cart = Cart)
 		persistedCartDao = PersistedCartDao(
-			persistedCartFile = File(requireActivity().filesDir, "cart.json")
+			persistedCartFile = File(requireActivity().filesDir, Configuration.cartCacheFile)
 		)
 
-		binding.lifecycleOwner = viewLifecycleOwner
-		binding.submitOrder.setOnClickListener {
-			val externalCartServiceKey = parentActivity.externalCartServiceKey
-
-			if (externalCartServiceKey != null) {
-				triggerOrder(externalCartServiceKey = externalCartServiceKey)
-			} else {
-				viewLifecycleOwner.lifecycleScope.launch {
-					val orderingUnavailableDialog = MaterialAlertDialogBuilder(requireContext())
-						.setTitle(resources.getString(R.string.ordering_unavailable_title))
-						.setMessage(resources.getString(R.string.ordering_unavailable_message))
-						.setNegativeButton(resources.getString(R.string.cancel), null)
-						.setPositiveButton(
-							resources.getString(R.string.function_unavailable_more),
-							null
-						)
-						.show()
-
-					orderingUnavailableDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-						.setOnClickListener {
-							parentActivity.openSdkLandingPage()
-
-							orderingUnavailableDialog.dismiss()
-						}
+		viewLifecycleOwner.lifecycleScope.launch {
+			mainActivityViewModel.user.collect {
+				if (it == null) {
+					navigateToProductSelectionScreen()
 				}
 			}
 		}
 
-		return binding.root
-	}
-
-	override fun onDestroyView() {
-		super.onDestroyView()
-
-		binding.unbind()
-		_binding = null
-	}
-
-	private fun triggerOrder(externalCartServiceKey: String) {
-		binding.submitOrder.isEnabled = false
-		binding.orderSubmittingGroup.visibility = View.VISIBLE
-
-		mainActivityViewModel.user.value.let {
-			if (it != null) {
-				submitOrder(sessionId = it.sessionId)
-			} else {
-				parentActivity.showLoginDialog(
-					::submitOrder,
-					::abortOrderSubmission
-				)
-			}
-		}
-	}
-
-	private fun abortOrderSubmission() {
-		binding.submitOrder.isEnabled = true
-		binding.orderSubmittingGroup.visibility = View.GONE
-	}
-
-	private fun submitOrder(sessionId: String) {
-		viewLifecycleOwner.lifecycleScope.launch {
-			val externalCartServiceKey = parentActivity.externalCartServiceKey
-
-			when (
-				externalCartServiceKey?.let {
-					mainActivityViewModel.placeOrder(
-						sessionId = sessionId,
-						externalCartServiceKey = it
+		return ComposeView(requireContext()).apply {
+			setContent {
+				MobileSdkExampleAppTheme {
+					OrderOverviewScreen(
+						cartItems = mainActivityViewModel.getCartItems(),
+						totalCartPrice = mainActivityViewModel.getTotalPrice(),
+						canTriggerOrderSubmission = viewModel.canTriggerOrderSubmission,
+						onSubmitOrder = ::triggerOrderSubmission
 					)
 				}
+			}
+		}
+	}
+
+	private fun triggerOrderSubmission() {
+		viewModel.deactivateTriggeringOrderSubmission()
+
+		val externalCartServiceKey = parentActivity.externalCartServiceKey
+
+		if (externalCartServiceKey != null) {
+			mainActivityViewModel.user.value?.let {
+				submitOrder(
+					externalCartServiceKey = externalCartServiceKey,
+					sessionId = it.sessionId
+				)
+			} ?: run {
+				Log.e(
+					"IplabsMobileSdkExampleApp",
+					"There must be a valid user session present during order submission attempts."
+				)
+
+				navigateToProductSelectionScreen()
+			}
+		} else {
+			showDemoModeDialog()
+		}
+	}
+
+	private fun submitOrder(externalCartServiceKey: String, sessionId: String) {
+		viewLifecycleOwner.lifecycleScope.launch {
+			when (
+				mainActivityViewModel.placeOrder(
+					sessionId = sessionId,
+					externalCartServiceKey = externalCartServiceKey
+				)
 			) {
 				OrderResult.Success -> {
 					findNavController().navigate(
-						OrderOverviewFragmentDirections.actionNavOrderOverviewToNavOrderConfirmation()
+						directions = OrderOverviewFragmentDirections.actionNavOrderOverviewToNavOrderConfirmation()
 					)
 				}
 
 				is OrderResult.ConnectionError, is OrderResult.HttpError -> {
-					MaterialAlertDialogBuilder(requireContext())
-						.setTitle(resources.getString(R.string.placing_order_failed_title))
-						.setMessage(resources.getString(R.string.placing_order_failed_temporarily))
-						.setPositiveButton(resources.getString(R.string.ok), null)
-						.show()
+					showPlacingOrderFailedDialog(
+						reason = resources.getString(R.string.placing_order_failed_temporarily)
+					)
 				}
 
 				OrderResult.DuplicateOrderIdError, OrderResult.InvalidSignatureError,
 				OrderResult.RevisionIdNotFoundError, is OrderResult.UnknownError -> {
-					Log.e("Cart", "An unknown error occurred during order submission.")
-
-					MaterialAlertDialogBuilder(requireContext())
-						.setTitle(resources.getString(R.string.placing_order_failed_title))
-						.setMessage(resources.getString(R.string.placing_order_failed_permanently))
-						.setPositiveButton(resources.getString(R.string.ok), null)
-						.show()
-				}
-
-				null -> {
 					Log.e(
-						"SubmitOrder",
-						"Unable to submit order because no External Cart Service key was set."
+						"IplabsMobileSdkExampleApp",
+						"An unknown error occurred during the order submission attempt."
+					)
+
+					showPlacingOrderFailedDialog(
+						reason = resources.getString(R.string.placing_order_failed_permanently)
 					)
 				}
 			}
 		}
+	}
 
-		abortOrderSubmission()
+	private fun showDemoModeDialog() {
+		viewLifecycleOwner.lifecycleScope.launch {
+			val orderingUnavailableDialog = MaterialAlertDialogBuilder(requireContext())
+				.setTitle(resources.getString(R.string.ordering_unavailable_title))
+				.setMessage(resources.getString(R.string.ordering_unavailable_message))
+				.setNegativeButton(resources.getString(R.string.cancel), null)
+				.setPositiveButton(
+					resources.getString(R.string.function_unavailable_more),
+					null
+				)
+				.show()
+
+			orderingUnavailableDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+				.setOnClickListener {
+					parentActivity.openSdkLandingPage()
+					orderingUnavailableDialog.dismiss()
+					viewModel.activateTriggeringOrderSubmission()
+				}
+
+			orderingUnavailableDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+				.setOnClickListener {
+					orderingUnavailableDialog.dismiss()
+					viewModel.activateTriggeringOrderSubmission()
+				}
+		}
+	}
+
+	private fun showPlacingOrderFailedDialog(reason: String) {
+		val placingOrderFailedDialog = MaterialAlertDialogBuilder(requireContext())
+			.setTitle(resources.getString(R.string.placing_order_failed_title))
+			.setMessage(reason)
+			.setPositiveButton(resources.getString(R.string.ok), null)
+			.show()
+
+		placingOrderFailedDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+			.setOnClickListener {
+				placingOrderFailedDialog.dismiss()
+				viewModel.activateTriggeringOrderSubmission()
+			}
+	}
+
+	private fun navigateToProductSelectionScreen() {
+		findNavController().navigate(
+			directions = OrderConfirmationFragmentDirections.actionGlobalNavProductSelection()
+		)
 	}
 }

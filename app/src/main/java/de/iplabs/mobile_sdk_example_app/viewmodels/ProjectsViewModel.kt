@@ -3,45 +3,45 @@ package de.iplabs.mobile_sdk_example_app.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.iplabs.mobile_sdk.OperationResult
-import de.iplabs.mobile_sdk.OperationResult.CloudProjectModificationResult
-import de.iplabs.mobile_sdk.OperationResult.LocalProjectModificationResult
-import de.iplabs.mobile_sdk.projectStorage.Project
-import de.iplabs.mobile_sdk.projectStorage.ProjectStorageLocation
+import de.iplabs.mobile_sdk.OperationResult.CloudSavedProjectModificationResult
+import de.iplabs.mobile_sdk.OperationResult.LocalSavedProjectModificationResult
+import de.iplabs.mobile_sdk.project.SavedProject
+import de.iplabs.mobile_sdk.project.storage.SavedProjectStorageLocation
 import de.iplabs.mobile_sdk_example_app.data.storage.CloudProjectsDao
 import de.iplabs.mobile_sdk_example_app.data.storage.LocalProjectsDao
 import de.iplabs.mobile_sdk_example_app.data.storage.ProjectsDao
 import de.iplabs.mobile_sdk_example_app.data.storage.ProjectsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProjectsViewModel : ViewModel() {
 	private var _loading = MutableStateFlow(false)
-	val loading
-		get() = _loading.asStateFlow()
+	val loading = _loading.asStateFlow()
 
 	private val localDao = LocalProjectsDao()
 	private val cloudDao = CloudProjectsDao()
 
 	private val projectsRepository = ProjectsRepository(localDao = localDao, cloudDao = cloudDao)
 
-	private val _projects = MutableStateFlow<List<Project>>(listOf())
+	private val _projects = MutableStateFlow<List<SavedProject>>(listOf())
 	val projects = _projects.asStateFlow()
 
 	@JvmOverloads
 	fun retrieveAllProjects(sessionId: String? = null) {
 		viewModelScope.launch {
-			_loading.value = true
+			_loading.update { true }
 
 			val projects = projectsRepository.retrieveAllProjects(sessionId = sessionId)
-			_projects.value = projects
+			_projects.update { projects }
 
-			_loading.value = false
+			_loading.update { false }
 		}
 	}
 
 	suspend fun renameProject(
-		project: Project,
+		project: SavedProject,
 		newTitle: String,
 		sessionId: String?
 	): OperationResult {
@@ -52,24 +52,23 @@ class ProjectsViewModel : ViewModel() {
 		)
 
 		if (
-			renamingResult is LocalProjectModificationResult.Success
-			|| renamingResult is CloudProjectModificationResult.Success
+			renamingResult is LocalSavedProjectModificationResult.Success
+			|| renamingResult is CloudSavedProjectModificationResult.Success
 		) {
-			val renamedProject = if (project.location == ProjectStorageLocation.LOCAL) {
-				(renamingResult as LocalProjectModificationResult.Success).modifiedProject!!
+			val renamedProject = if (project.location == SavedProjectStorageLocation.LOCAL) {
+				(renamingResult as LocalSavedProjectModificationResult.Success).modifiedProject!!
 			} else {
-				(renamingResult as CloudProjectModificationResult.Success).modifiedProject!!
+				(renamingResult as CloudSavedProjectModificationResult.Success).modifiedProject!!
 			}
 
-			_projects.value =
-				_projects.value.map { if (it != project) it else renamedProject }
+			_projects.update { _projects.value.map { if (it != project) it else renamedProject } }
 		}
 
 		return renamingResult
 	}
 
 	suspend fun removeProject(
-		project: Project,
+		project: SavedProject,
 		sessionId: String?
 	): OperationResult {
 		val removalResult = provideDaoForStorageLocation(project.location).remove(
@@ -78,19 +77,19 @@ class ProjectsViewModel : ViewModel() {
 		)
 
 		if (
-			removalResult is LocalProjectModificationResult.Success
-			|| removalResult is CloudProjectModificationResult.Success
+			removalResult is LocalSavedProjectModificationResult.Success
+			|| removalResult is CloudSavedProjectModificationResult.Success
 		) {
-			_projects.value = _projects.value.filter { it != project }
+			_projects.update { _projects.value.filter { it != project } }
 		}
 
 		return removalResult
 	}
 
-	private fun provideDaoForStorageLocation(location: ProjectStorageLocation): ProjectsDao {
+	private fun provideDaoForStorageLocation(location: SavedProjectStorageLocation): ProjectsDao {
 		return when (location) {
-			ProjectStorageLocation.LOCAL -> localDao
-			ProjectStorageLocation.CLOUD -> cloudDao
+			SavedProjectStorageLocation.LOCAL -> localDao
+			SavedProjectStorageLocation.CLOUD -> cloudDao
 		}
 	}
 }

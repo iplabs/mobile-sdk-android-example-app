@@ -3,7 +3,6 @@ package de.iplabs.mobile_sdk_example_app.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import de.iplabs.mobile_sdk.OperationResult.OrderResult
 import de.iplabs.mobile_sdk_example_app.data.cart.CartDao
 import de.iplabs.mobile_sdk_example_app.data.cart.CartItem
@@ -15,7 +14,7 @@ import de.iplabs.mobile_sdk_example_app.data.user.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.update
 import java.net.URL
 
 class MainActivityViewModel(
@@ -25,8 +24,7 @@ class MainActivityViewModel(
 ) : ViewModel() {
 	private val userRepository = UserRepository(dao = userDao)
 	private var _user = MutableStateFlow(userRepository.getUser())
-	val user
-		get() = _user.asStateFlow()
+	val user = _user.asStateFlow()
 
 	private val cartRepository = CartRepository(
 		cartDao = cartDao,
@@ -42,11 +40,10 @@ class MainActivityViewModel(
 	fun getTotalPrice(): StateFlow<Double> = cartRepository.getTotalPrice()
 
 	private var _loginLoading = MutableStateFlow(false)
-	val loginLoading
-		get() = _loginLoading.asStateFlow()
+	val loginLoading = _loginLoading.asStateFlow()
 
 	suspend fun loginUser(username: String, password: String, backendUrl: URL): User? {
-		_loginLoading.value = true
+		_loginLoading.update { true }
 
 		val userResult = try {
 			userRepository.loginUser(
@@ -58,24 +55,22 @@ class MainActivityViewModel(
 			null
 		}
 
-		Log.d("SESSION ID", userResult?.sessionId ?: "[none]")
+		Log.d("IplabsMobileSdkExampleApp", "Session ID: ${userResult?.sessionId ?: "[none]"}")
 
-		_user.value = userResult
-		_loginLoading.value = false
+		_user.update { userResult }
+		_loginLoading.update { false }
 
 		return userResult
 	}
 
 	fun logoutUser() {
-		_loginLoading.value = true
+		_loginLoading.update { true }
 
 		userRepository.logoutUser()
 
-		viewModelScope.launch {
-			_user.value = null
-		}
+		_user.update { null }
 
-		_loginLoading.value = false
+		_loginLoading.update { false }
 	}
 
 	fun putItemIntoCart(item: CartItem) {

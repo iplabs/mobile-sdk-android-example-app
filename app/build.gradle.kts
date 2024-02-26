@@ -132,8 +132,14 @@ android {
 	}
 
 	buildFeatures {
+		buildConfig = true
+		compose = true
 		dataBinding = true
 		viewBinding = true
+	}
+
+	composeOptions {
+		kotlinCompilerExtensionVersion = libs.androidx.compose.compiler.get().version
 	}
 
 	compileOptions {
@@ -147,20 +153,28 @@ android {
 }
 
 dependencies {
+	val composeBom = platform(libs.androidx.compose.bom)
+
 	implementation(libs.amplitude.analytics)
 	implementation(libs.android.material)
 	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.compose.ui.tooling.preview)
+	implementation(composeBom)
 	implementation(libs.androidx.constraintlayout)
 	implementation(libs.androidx.core)
-	implementation(libs.androidx.lifecycle.livedata)
-	implementation(libs.androidx.lifecycle.viewmodel)
+	implementation(libs.androidx.lifecycle.viewmodel.compose)
+	implementation(libs.androidx.lifecycle.runtime.compose)
+	implementation(libs.androidx.material)
+	implementation(libs.androidx.material.icons)
 	implementation(libs.androidx.navigation.fragment)
 	implementation(libs.androidx.navigation.ui)
 	implementation(libs.androidx.preference)
-	implementation(libs.androidx.webkit)
 	implementation(libs.kotlinx.datetime)
 	implementation(libs.kotlinx.serialization.json)
 	implementation(libs.iplabs.mobile.sdk)
+
+	debugImplementation(libs.androidx.compose.ui.test.manifest)
+	debugImplementation(libs.androidx.compose.ui.tooling)
 }
 
 fun loadSecretFromFile(key: String): String? {

@@ -4,35 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import de.iplabs.mobile_sdk_example_app.databinding.FragmentOrderConfirmationBinding
+import de.iplabs.mobile_sdk_example_app.ui.screens.OrderConfirmationScreen
+import de.iplabs.mobile_sdk_example_app.ui.theme.MobileSdkExampleAppTheme
 
 class OrderConfirmationFragment : Fragment() {
-	private var _binding: FragmentOrderConfirmationBinding? = null
-	private val binding get() = _binding!!
-
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		_binding = FragmentOrderConfirmationBinding.inflate(inflater, container, false)
-
-		binding.lifecycleOwner = viewLifecycleOwner
-		binding.navigateToHome.setOnClickListener { navigateToHome() }
-
-		return binding.root
+		return ComposeView(requireContext()).apply {
+			setContent {
+				MobileSdkExampleAppTheme {
+					OrderConfirmationScreen(onBackToStart = ::navigateToSelectionScreen)
+				}
+			}
+		}
 	}
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-
-		binding.unbind()
-		_binding = null
-	}
-
-	private fun navigateToHome() {
-		findNavController().navigate(OrderConfirmationFragmentDirections.actionNavOrderConfirmationToNavSelection())
+	private fun navigateToSelectionScreen() {
+		findNavController().navigate(
+			directions = OrderConfirmationFragmentDirections.actionNavOrderConfirmationToNavProductSelection()
+		)
 	}
 }

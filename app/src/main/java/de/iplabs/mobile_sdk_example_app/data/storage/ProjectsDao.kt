@@ -1,16 +1,16 @@
 package de.iplabs.mobile_sdk_example_app.data.storage
 
 import de.iplabs.mobile_sdk.OperationResult
-import de.iplabs.mobile_sdk.projectStorage.Project
+import de.iplabs.mobile_sdk.project.SavedProject
 
 interface ProjectsDao {
-	suspend fun retrieveAll(sessionId: String? = null): List<Project>
+	suspend fun retrieveAll(sessionId: String? = null): List<SavedProject>
 
 	suspend fun rename(
-		project: Project,
+		project: SavedProject,
 		newTitle: String,
 		sessionId: String? = null
 	): OperationResult
 
-	suspend fun remove(project: Project, sessionId: String? = null): OperationResult
+	suspend fun remove(project: SavedProject, sessionId: String? = null): OperationResult
 }

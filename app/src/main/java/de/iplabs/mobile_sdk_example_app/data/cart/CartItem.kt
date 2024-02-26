@@ -1,7 +1,7 @@
 package de.iplabs.mobile_sdk_example_app.data.cart
 
-import de.iplabs.mobile_sdk.editor.CartProject
 import de.iplabs.mobile_sdk.order.OrderItem
+import de.iplabs.mobile_sdk.project.CartProject
 import kotlinx.serialization.Serializable
 
 @Serializable

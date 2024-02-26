@@ -1,41 +1,34 @@
 package de.iplabs.mobile_sdk_example_app.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.appcompat.view.menu.MenuPopupHelper
-import androidx.appcompat.widget.PopupMenu
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import de.iplabs.mobile_sdk.editor.CartProject
+import de.iplabs.mobile_sdk.project.CartProject
+import de.iplabs.mobile_sdk_example_app.MainActivity
 import de.iplabs.mobile_sdk_example_app.R
+import de.iplabs.mobile_sdk_example_app.configuration.Configuration
 import de.iplabs.mobile_sdk_example_app.data.cart.Cart
 import de.iplabs.mobile_sdk_example_app.data.cart.CartDao
 import de.iplabs.mobile_sdk_example_app.data.cart.CartItem
 import de.iplabs.mobile_sdk_example_app.data.cart.PersistedCartDao
 import de.iplabs.mobile_sdk_example_app.data.user.UserDao
-import de.iplabs.mobile_sdk_example_app.databinding.FragmentCartBinding
-import de.iplabs.mobile_sdk_example_app.ui.cart.CartItemsView
+import de.iplabs.mobile_sdk_example_app.ui.screens.CartScreen
+import de.iplabs.mobile_sdk_example_app.ui.theme.MobileSdkExampleAppTheme
+import de.iplabs.mobile_sdk_example_app.viewmodels.CartViewModel
 import de.iplabs.mobile_sdk_example_app.viewmodels.MainActivityViewModel
 import de.iplabs.mobile_sdk_example_app.viewmodels.MainActivityViewModelFactory
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.io.File
 
 class CartFragment : Fragment() {
-	private var _binding: FragmentCartBinding? = null
-	private val binding get() = _binding!!
-
+	private lateinit var parentActivity: MainActivity
 	private lateinit var userDao: UserDao
 	private lateinit var cartDao: CartDao
 	private lateinit var persistedCartDao: PersistedCartDao
@@ -48,103 +41,63 @@ class CartFragment : Fragment() {
 		)
 	}
 
-	private val cartItemsRecyclerView = CartItemsView()
+	private val viewModel: CartViewModel by viewModels()
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+
+		parentActivity = activity as MainActivity
+	}
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		_binding = FragmentCartBinding.inflate(inflater, container, false)
-
 		val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 		userDao = UserDao(preferences = sharedPreferences)
 		cartDao = CartDao(cart = Cart)
-		persistedCartDao =
-			PersistedCartDao(persistedCartFile = File(requireActivity().filesDir, "cart.json"))
+		persistedCartDao = PersistedCartDao(
+			persistedCartFile = File(requireActivity().filesDir, Configuration.cartCacheFile)
+		)
 
-		binding.lifecycleOwner = viewLifecycleOwner
-		binding.mainActivityViewModel = mainActivityViewModel
-
-		return binding.root
+		return ComposeView(requireContext()).apply {
+			setContent {
+				MobileSdkExampleAppTheme {
+					CartScreen(
+						cartItems = mainActivityViewModel.getCartItems(),
+						totalPrice = mainActivityViewModel.getTotalPrice(),
+						onDecreaseCartItemQuantity = ::decreaseItemQuantity,
+						onIncreaseCartItemQuantity = ::increaseItemQuantity,
+						onEditCartItem = ::editItem,
+						onRemoveCartItem = ::removeItem,
+						canTriggerCheckout = viewModel.canTriggerCheckout,
+						onContinueShopping = ::continueShopping,
+						onProceedToCheckout = ::triggerCheckout
+					)
+				}
+			}
+		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		cartItemsRecyclerView.attach(
-			context = requireContext(),
-			recyclerView = binding.cartItemList,
-			fragment = this
-		)
-
-		lifecycleScope.launch {
-			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				mainActivityViewModel.getCartItems().collectLatest {
-					cartItemsRecyclerView.setItems(it)
-				}
-			}
-		}
-
-		with(binding) {
-			shopNow.setOnClickListener { continueShopping() }
-			continueShopping.setOnClickListener { continueShopping() }
-			proceedToCheckout.setOnClickListener { proceedToCheckout() }
-		}
+		viewModel.activateTriggeringCheckout()
 	}
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-
-		binding.unbind()
-		_binding = null
-	}
-
-	fun decreaseItemQuantity(item: CartItem) {
+	private fun decreaseItemQuantity(item: CartItem) {
 		mainActivityViewModel.decreaseCartItemQuantity(item = item)
 	}
 
-	fun increaseItemQuantity(item: CartItem) {
+	private fun increaseItemQuantity(item: CartItem) {
 		mainActivityViewModel.increaseCartItemQuantity(item = item)
-	}
-
-	@SuppressLint("RestrictedApi")
-	fun showCartItemModificationPopupMenu(cartItem: CartItem, anchor: View): Boolean {
-		val popupMenu = PopupMenu(requireContext(), anchor)
-		popupMenu.inflate(R.menu.cart_item_modification)
-
-		val helper = MenuPopupHelper(requireContext(), popupMenu.menu as MenuBuilder, anchor)
-		helper.setForceShowIcon(true)
-
-		popupMenu.setOnMenuItemClickListener {
-			when (it.itemId) {
-				R.id.edit_cart_item -> {
-					editItem(cartProject = cartItem.cartProject)
-
-					true
-				}
-
-				R.id.remove_cart_item -> {
-					removeItem(cartItem = cartItem)
-
-					true
-				}
-
-				else -> false
-			}
-		}
-
-		helper.show()
-
-		return true
 	}
 
 	private fun editItem(cartProject: CartProject) {
 		findNavController().navigate(
-			CartFragmentDirections.actionNavCartToNavEditor(
-				cartProject = cartProject.copy(
-					previewImage = null
-				)
+			directions = CartFragmentDirections.actionNavCartToNavEditor(
+				project = cartProject.copy(previewImage = null)
 			)
 		)
 	}
@@ -167,18 +120,33 @@ class CartFragment : Fragment() {
 	}
 
 	private fun continueShopping() {
-		if (!mainActivityViewModel.isCartEmpty().value) {
-			Snackbar.make(
-				binding.shopNow,
-				R.string.cart_reminder,
-				Snackbar.LENGTH_SHORT
-			).show()
-		}
-
-		findNavController().navigate(CartFragmentDirections.actionNavCartToNavSelection())
+		findNavController().navigate(
+			directions = CartFragmentDirections.actionNavCartToNavProductSelection()
+		)
 	}
 
-	private fun proceedToCheckout() {
-		findNavController().navigate(CartFragmentDirections.actionNavCartToNavOrderOverview())
+	private fun triggerCheckout() {
+		viewModel.deactivateTriggeringCheckout()
+
+		mainActivityViewModel.user.value.let {
+			if (it != null) {
+				proceedToCheckout(sessionId = "")
+			} else {
+				parentActivity.showLoginDialog(
+					authenticateCallback = ::proceedToCheckout,
+					cancelAuthenticationCallback = ::abortCheckout
+				)
+			}
+		}
+	}
+
+	private fun proceedToCheckout(sessionId: String) {
+		findNavController().navigate(
+			directions = CartFragmentDirections.actionNavCartToNavOrderOverview()
+		)
+	}
+
+	private fun abortCheckout() {
+		viewModel.activateTriggeringCheckout()
 	}
 }

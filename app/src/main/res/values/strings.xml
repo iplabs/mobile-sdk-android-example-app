@@ -7,8 +7,8 @@
 	<string name="nav_header_desc">Navigation header</string>
 
 	<string name="launch_fragment_title">Launch</string>
-	<string name="selection_fragment_title">Products</string>
-	<string name="details_fragment_title">Details</string>
+	<string name="product_selection_fragment_title">Product Selection</string>
+	<string name="product_details_fragment_title">Product Details</string>
 	<string name="editor_fragment_title">Editor</string>
 	<string name="cart_fragment_title">Cart</string>
 	<string name="projects_fragment_title">Saved Projects</string>
@@ -40,17 +40,15 @@
 	<string name="logout_confirmation">You have been logged out successfully.</string>
 
 	<string name="loading_products">Loading products…</string>
-	<string name="warning_icon">Warning icon</string>
-	<string name="loading_selection_failed">Failed to load products. Please check your connection and retry.</string>
-	<string name="product_tile_description">Tile for product %1$s</string>
-	<string name="create_product">Create now</string>
+	<string name="loading_product_selection_failed">Failed to load products. Please check your connection and retry.</string>
+	<string name="create_product">Create now (%1$s)</string>
 	<string name="product_preview_description">Preview of the product</string>
 	<string name="log_in_to_see_cloud_projects">Please log in to see your cloud projects.</string>
 	<string name="loading_projects">Loading projects…</string>
 	<string name="no_projects">You have not stored any projects yet.</string>
-	<string name="loading_projects_failed">Failed to load projects. Please check your connection and retry.</string>
 	<string name="project_preview_description">Project preview</string>
 	<string name="storage_location_indicator_description">Storage location indicator</string>
+	<string name="dot_separator">▪</string>
 	<string name="impending_project_expiration_indicator_description">Impending project expiration indicator</string>
 	<string name="rename">Rename</string>
 	<string name="rename_project_title">Rename project</string>
@@ -80,24 +78,38 @@
 	<string name="editing_cart_project_failed">Your cart item could not be loaded for editing. Please check your connection and try again.</string>
 	<string name="continue_shopping">Add more</string>
 	<string name="proceed_to_checkout">Check out</string>
-	<string name="submitting_order">Submitting order…</string>
+	<string name="shipping_method">Shipping Method</string>
+	<string name="mail_delivery">Mail delivery</string>
+	<string name="shipping_address">Shipping Address</string>
+	<string name="shipping_address_description">Your order will be delivered to the following address:</string>
+	<string name="billing_address">Billing Address</string>
+	<string name="identical_billing_address">Same as shipping address.</string>
+	<string name="quantity_abbreviated">Qty.</string>
+	<string name="article_name">Article Name</string>
+	<string name="price">Price</string>
+	<string name="cart_items">Cart Items</string>
+	<string name="quantity_multiplier">%1$s×</string>
 	<string name="ordering_unavailable_title">Ordering Unavailable</string>
 	<string name="ordering_unavailable_message">To activate ordering in this example app, you need to configure a corresponding External Cart Service key. Please get in contact with us for further instructions.</string>
 	<string name="placing_order_failed_title">Placing order failed</string>
 	<string name="placing_order_failed_temporarily">We were unfortunately unable to submit your order. Please check your connection and try again.</string>
-	<string name="placing_order_failed_permanently">An error occurred while trying to submit your order. You can retry but it is unlikely to succeed. Please contact our support for further instructions.</string>
+	<string name="placing_order_failed_permanently">An error occurred while trying to submit your order. You can retry it but it is unlikely to succeed. Please contact our support for further instructions.</string>
 	<string name="submit_order">Submit order</string>
-	<string name="done_description">Order placed successfully</string>
+	<string name="order_confirmation_heading">Thank you for your order!</string>
+	<string name="order_confirmation_description">Your order has been placed successfully and will soon be delivered to you.\n\nYou will receive a confirmation e-mail with all details shortly.</string>
 	<string name="back_to_home">Back to start page</string>
-	<string name="cart_reminder">No worries – products already designed will remain in your cart for later.</string>
 	<string name="about_app_heading">About This App</string>
-	<string name="about_app_content">© Copyright ip.labs GmbH&lt;br>Schwertberger Straße 14–16&lt;br>53177 Bonn&lt;br>Deutschland&lt;br>&lt;br>All rights reserved.&lt;br>&lt;br>↗️ &lt;a href="https://www.iplabs.com/">https://www.iplabs.com/&lt;/a></string>
+	<string name="about_app_copyright_company">© Copyright ip.labs GmbH</string>
+	<string name="about_app_copyright_address">Schwertberger Straße 14–16\n53177 Bonn\nGermany</string>
+	<string name="about_app_copyright_rights">All rights reserved.</string>
+	<string name="about_app_copyright_link">↗️ &lt;a href=\"https://www.iplabs.com/\">https://www.iplabs.com/&lt;/a></string>
+	<string name="about_app_version_information_subheading">Version Information</string>
+	<string name="about_app_component_information">%1$s version:\n%2$s – %3$s build %4$s</string>
 	<string name="privacy_heading">Google Play Services for AR (ARCore) User Privacy</string>
-	<string name="privacy_content">This application runs on Google Play Services for AR (ARCore), which is provided by Google and governed by the ↗️ &lt;a href="https://policies.google.com/privacy">Google Privacy Policy&lt;a>.</string>
+	<string name="privacy_content">This application runs on Google Play Services for AR (ARCore), which is provided by Google and governed by the ↗️ &lt;a href=\"https://policies.google.com/privacy\">Google Privacy Policy&lt;/a>.</string>
 	<string name="licenses_heading">Third Party Component Licenses</string>
 	<string name="licenses_description">This application makes use of a few open source third party software components. Please take note of these components and their licenses:</string>
-	<string name="licenses_loading">Loading licenses…</string>
 	<string name="license_heading">%1$s %2$s</string>
 	<string name="license_vendor">by %1$s</string>
-	<string name="license_link">↗️ &lt;a href="%1$s">Visit project website&lt;/a></string>
+	<string name="license_link">↗️ &lt;a href=\"%1$s\">Visit project website&lt;/a></string>
 </resources>

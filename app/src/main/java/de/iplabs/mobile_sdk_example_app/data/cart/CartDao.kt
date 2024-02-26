@@ -7,6 +7,7 @@ import de.iplabs.mobile_sdk_example_app.configuration.generateFakeOrderId
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class CartDao(private val cart: Cart) {
 	private var _itemCount = MutableStateFlow(0)
@@ -35,7 +36,7 @@ class CartDao(private val cart: Cart) {
 		}
 
 		recalculateTotalItemCount()
-		_isEmpty.value = false
+		_isEmpty.update { false }
 		recalculateTotalPrice()
 	}
 
@@ -57,7 +58,7 @@ class CartDao(private val cart: Cart) {
 		cart.removeItem(item = item)
 
 		recalculateTotalItemCount()
-		_isEmpty.value = _itemCount.value < 1
+		_isEmpty.update { _itemCount.value < 1 }
 		recalculateTotalPrice()
 	}
 
@@ -89,16 +90,20 @@ class CartDao(private val cart: Cart) {
 	}
 
 	private fun recalculateTotalItemCount() {
-		_itemCount.value = getItems().value.fold(0) { totalItemCount, currentCartItem ->
-			totalItemCount + currentCartItem.quantity
+		_itemCount.update {
+			getItems().value.fold(0) { totalItemCount, currentCartItem ->
+				totalItemCount + currentCartItem.quantity
+			}
 		}
 	}
 
 	private fun recalculateTotalPrice() {
-		_totalPrice.value = getItems().value.map {
-			it.totalPrice
-		}.fold(0.0) { total_price, item_price ->
-			total_price + item_price
+		_totalPrice.update {
+			getItems().value.map {
+				it.totalPrice
+			}.fold(0.0) { totalPrice, itemPrice ->
+				totalPrice + itemPrice
+			}
 		}
 	}
 
@@ -106,7 +111,7 @@ class CartDao(private val cart: Cart) {
 		cart.clear()
 
 		recalculateTotalItemCount()
-		_isEmpty.value = true
+		_isEmpty.update { true }
 		recalculateTotalPrice()
 	}
 }

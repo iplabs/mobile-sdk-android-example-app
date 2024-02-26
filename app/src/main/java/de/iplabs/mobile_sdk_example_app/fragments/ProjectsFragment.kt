@@ -1,14 +1,11 @@
 package de.iplabs.mobile_sdk_example_app.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.appcompat.view.menu.MenuPopupHelper
-import androidx.appcompat.widget.PopupMenu
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -18,21 +15,22 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import de.iplabs.mobile_sdk.OperationResult.CloudProjectModificationResult
-import de.iplabs.mobile_sdk.OperationResult.LocalProjectModificationResult
-import de.iplabs.mobile_sdk.projectStorage.Project
-import de.iplabs.mobile_sdk.projectStorage.ProjectStorageLocation
+import de.iplabs.mobile_sdk.OperationResult.CloudSavedProjectModificationResult
+import de.iplabs.mobile_sdk.OperationResult.LocalSavedProjectModificationResult
+import de.iplabs.mobile_sdk.project.SavedProject
+import de.iplabs.mobile_sdk.project.storage.SavedProjectStorageLocation
 import de.iplabs.mobile_sdk_example_app.MainActivity
 import de.iplabs.mobile_sdk_example_app.R
+import de.iplabs.mobile_sdk_example_app.configuration.Configuration
 import de.iplabs.mobile_sdk_example_app.data.cart.Cart
 import de.iplabs.mobile_sdk_example_app.data.cart.CartDao
 import de.iplabs.mobile_sdk_example_app.data.cart.PersistedCartDao
 import de.iplabs.mobile_sdk_example_app.data.user.UserDao
-import de.iplabs.mobile_sdk_example_app.databinding.FragmentProjectsBinding
 import de.iplabs.mobile_sdk_example_app.databinding.RenameProjectDialogBinding
 import de.iplabs.mobile_sdk_example_app.ui.focusAndShowKeyboard
 import de.iplabs.mobile_sdk_example_app.ui.hideKeyboard
-import de.iplabs.mobile_sdk_example_app.ui.projects.ProjectsView
+import de.iplabs.mobile_sdk_example_app.ui.screens.ProjectsScreen
+import de.iplabs.mobile_sdk_example_app.ui.theme.MobileSdkExampleAppTheme
 import de.iplabs.mobile_sdk_example_app.viewmodels.MainActivityViewModel
 import de.iplabs.mobile_sdk_example_app.viewmodels.MainActivityViewModelFactory
 import de.iplabs.mobile_sdk_example_app.viewmodels.ProjectsViewModel
@@ -41,9 +39,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class ProjectsFragment : Fragment() {
-	private var _binding: FragmentProjectsBinding? = null
-	private val binding get() = _binding!!
-
+	private lateinit var parentActivity: MainActivity
 	private lateinit var userDao: UserDao
 	private lateinit var cartDao: CartDao
 	private lateinit var persistedCartDao: PersistedCartDao
@@ -57,48 +53,46 @@ class ProjectsFragment : Fragment() {
 	}
 
 	private val viewModel: ProjectsViewModel by viewModels()
-	private val projectsRecyclerView = ProjectsView()
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+
+		parentActivity = activity as MainActivity
+	}
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		_binding = FragmentProjectsBinding.inflate(inflater, container, false)
-
 		val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 		userDao = UserDao(preferences = sharedPreferences)
 		cartDao = CartDao(cart = Cart)
 		persistedCartDao = PersistedCartDao(
-			persistedCartFile = File(requireActivity().filesDir, "cart.json")
+			persistedCartFile = File(requireActivity().filesDir, Configuration.cartCacheFile)
 		)
 
-		binding.lifecycleOwner = viewLifecycleOwner
-		binding.activity = activity as MainActivity
-		binding.mainActivityViewModel = mainActivityViewModel
-		binding.viewModel = viewModel
-
-		return binding.root
+		return ComposeView(requireContext()).apply {
+			setContent {
+				MobileSdkExampleAppTheme {
+					ProjectsScreen(
+						isLoading = viewModel.loading,
+						projects = viewModel.projects,
+						user = mainActivityViewModel.user,
+						onTriggerLogin = parentActivity::showLoginDialog,
+						onLoadProject = ::loadProject,
+						onRenameProject = ::renameProject,
+						onRemoveProject = ::removeProject
+					)
+				}
+			}
+		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		projectsRecyclerView.attach(
-			context = requireContext(),
-			recyclerView = binding.projectList,
-			fragment = this
-		)
-
-		lifecycleScope.launch {
-			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				viewModel.projects.collectLatest {
-					projectsRecyclerView.setProjects(it)
-				}
-			}
-		}
-
-		lifecycleScope.launch {
+		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				mainActivityViewModel.user.collectLatest {
 					viewModel.retrieveAllProjects(sessionId = it?.sessionId)
@@ -107,49 +101,11 @@ class ProjectsFragment : Fragment() {
 		}
 	}
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-
-		binding.unbind()
-		_binding = null
+	private fun loadProject(project: SavedProject) {
+		navigateToEditorScreen(project = project)
 	}
 
-	@SuppressLint("RestrictedApi")
-	fun showProjectModificationPopupMenu(project: Project, anchor: View): Boolean {
-		val popupMenu = PopupMenu(requireContext(), anchor)
-		popupMenu.inflate(R.menu.project_modification)
-
-		val helper = MenuPopupHelper(requireContext(), popupMenu.menu as MenuBuilder, anchor)
-		helper.setForceShowIcon(true)
-
-		popupMenu.setOnMenuItemClickListener {
-			when (it.itemId) {
-				R.id.rename_project -> {
-					renameProject(project = project)
-
-					true
-				}
-
-				R.id.remove_project -> {
-					removeProject(project = project)
-
-					true
-				}
-
-				else -> false
-			}
-		}
-
-		helper.show()
-
-		return true
-	}
-
-	fun loadProject(project: Project) {
-		navigateToEditor(project = project)
-	}
-
-	private fun renameProject(project: Project) {
+	private fun renameProject(project: SavedProject) {
 		val renameDialogBinding =
 			RenameProjectDialogBinding.inflate(LayoutInflater.from(requireContext()))
 
@@ -169,7 +125,7 @@ class ProjectsFragment : Fragment() {
 		renameDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
 			val sessionId = mainActivityViewModel.user.value?.sessionId
 
-			if (project.location == ProjectStorageLocation.CLOUD) {
+			if (project.location == SavedProjectStorageLocation.CLOUD) {
 				check(sessionId != null) {
 					"You have to be logged in to rename cloud projects."
 				}
@@ -187,8 +143,8 @@ class ProjectsFragment : Fragment() {
 						)
 
 						if (
-							renamingResult !is LocalProjectModificationResult.Success
-							&& renamingResult !is CloudProjectModificationResult.Success
+							renamingResult !is LocalSavedProjectModificationResult.Success
+							&& renamingResult !is CloudSavedProjectModificationResult.Success
 						) {
 							MaterialAlertDialogBuilder(requireContext())
 								.setTitle(resources.getString(R.string.renaming_project_failed_title))
@@ -216,7 +172,7 @@ class ProjectsFragment : Fragment() {
 		renameDialogBinding.newTitleText.focusAndShowKeyboard()
 	}
 
-	private fun removeProject(project: Project) {
+	private fun removeProject(project: SavedProject) {
 		MaterialAlertDialogBuilder(requireContext())
 			.setCancelable(false)
 			.setTitle(resources.getString(R.string.remove_project_title))
@@ -225,7 +181,7 @@ class ProjectsFragment : Fragment() {
 			.setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
 				val sessionId = mainActivityViewModel.user.value?.sessionId
 
-				if (project.location == ProjectStorageLocation.CLOUD) {
+				if (project.location == SavedProjectStorageLocation.CLOUD) {
 					check(sessionId != null) {
 						"You have to be logged in to remove cloud projects."
 					}
@@ -238,8 +194,8 @@ class ProjectsFragment : Fragment() {
 					)
 
 					if (
-						removalResult !is LocalProjectModificationResult.Success
-						&& removalResult !is CloudProjectModificationResult.Success
+						removalResult !is LocalSavedProjectModificationResult.Success
+						&& removalResult !is CloudSavedProjectModificationResult.Success
 					) {
 						MaterialAlertDialogBuilder(requireContext())
 							.setTitle(resources.getString(R.string.removing_project_failed_title))
@@ -252,11 +208,11 @@ class ProjectsFragment : Fragment() {
 			.show()
 	}
 
-	private fun navigateToEditor(project: Project) {
-		val action = ProjectsFragmentDirections.actionNavProjectsToNavEditor(
-			project = project.copy(previewImage = null)
+	private fun navigateToEditorScreen(project: SavedProject) {
+		findNavController().navigate(
+			directions = ProjectsFragmentDirections.actionNavProjectsToNavEditor(
+				project = project.copy(previewImage = null)
+			)
 		)
-
-		findNavController().navigate(action)
 	}
 }

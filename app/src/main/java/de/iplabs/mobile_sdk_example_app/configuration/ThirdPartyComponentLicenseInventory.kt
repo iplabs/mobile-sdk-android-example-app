@@ -78,6 +78,14 @@ val thirdPartyComponentLicenseInventory = listOf(
 	),
 	ThirdPartyComponentLicense(
 		licenseName = "Apache License, Version 2.0",
+		licenseFile = R.raw.license_androidx_compose_bom,
+		componentName = "Jetpack Compose BOM",
+		componentVersion = "2024.02.00",
+		componentVendor = "Google LLC",
+		componentLink = "https://developer.android.com/jetpack/compose/bom/"
+	),
+	ThirdPartyComponentLicense(
+		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_org_jetbrains_kotlin_kotlin_gradle_plugin,
 		componentName = "Kotlin Gradle Plugin",
 		componentVersion = "1.9.22",
@@ -110,11 +118,43 @@ val thirdPartyComponentLicenseInventory = listOf(
 	),
 	ThirdPartyComponentLicense(
 		licenseName = "Apache License, Version 2.0",
+		licenseFile = R.raw.license_org_jetbrains_kotlinx_kotlinx_serialization_json,
+		componentName = "Kotlinx Serialization JSON",
+		componentVersion = "1.6.3",
+		componentVendor = "JetBrains s.r.o.",
+		componentLink = "https://github.com/Kotlin/kotlinx.serialization/"
+	),
+	ThirdPartyComponentLicense(
+		licenseName = "Apache License, Version 2.0",
+		licenseFile = R.raw.license_lifecycle_runtime_compose,
+		componentName = "Lifecycle Runtime Compose",
+		componentVersion = "2.7.0",
+		componentVendor = "Google LLC",
+		componentLink = "https://developer.android.com/jetpack/androidx/releases/lifecycle/"
+	),
+	ThirdPartyComponentLicense(
+		licenseName = "Apache License, Version 2.0",
+		licenseFile = R.raw.license_lifecycle_viewmodel_compose,
+		componentName = "Lifecycle ViewModel Compose",
+		componentVersion = "2.7.0",
+		componentVendor = "Google LLC",
+		componentLink = "https://developer.android.com/jetpack/androidx/releases/lifecycle/"
+	),
+	ThirdPartyComponentLicense(
+		licenseName = "Apache License, Version 2.0",
 		licenseFile = R.raw.license_com_google_android_material_material,
 		componentName = "Material Components for Android",
 		componentVersion = "1.11.0",
 		componentVendor = "Google LLC",
 		componentLink = "https://github.com/material-components/material-components-android/"
+	),
+	ThirdPartyComponentLicense(
+		licenseName = "Apache License, Version 2.0",
+		licenseFile = R.raw.license_compose_material3,
+		componentName = "Material Design 3",
+		componentVersion = "1.2.0",
+		componentVendor = "Google LLC",
+		componentLink = "https://developer.android.com/jetpack/androidx/releases/compose-material3/"
 	),
 	ThirdPartyComponentLicense(
 		licenseName = "Apache License, Version 2.0",
@@ -126,10 +166,10 @@ val thirdPartyComponentLicenseInventory = listOf(
 	),
 	ThirdPartyComponentLicense(
 		licenseName = "Apache License, Version 2.0",
-		licenseFile = R.raw.license_androidx_webkit_webkit,
-		componentName = "WebView Support Library",
-		componentVersion = "1.7.0",
+		licenseFile = R.raw.license_compose_material_icons_extended,
+		componentName = "Material Design Icons Extended",
+		componentVersion = "1.6.1",
 		componentVendor = "Google LLC",
-		componentLink = "https://developer.android.com/jetpack/androidx/releases/webkit/"
+		componentLink = "https://developer.android.com/reference/kotlin/androidx/compose/material/icons/package-summary.html"
 	)
 )

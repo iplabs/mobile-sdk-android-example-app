@@ -24,6 +24,6 @@ object UserRepository {
 	}
 
 	fun logoutUser() {
-		return dao.logoutUser()
+		dao.logoutUser()
 	}
 }

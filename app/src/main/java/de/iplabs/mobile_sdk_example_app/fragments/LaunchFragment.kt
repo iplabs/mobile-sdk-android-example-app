@@ -4,42 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import de.iplabs.mobile_sdk_example_app.databinding.FragmentLaunchBinding
+import de.iplabs.mobile_sdk_example_app.ui.screens.LaunchScreen
+import de.iplabs.mobile_sdk_example_app.ui.theme.MobileSdkExampleAppTheme
 
 class LaunchFragment : Fragment() {
-	private var _binding: FragmentLaunchBinding? = null
-	private val binding get() = _binding!!
-
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		_binding = FragmentLaunchBinding.inflate(inflater, container, false)
-
-		binding.lifecycleOwner = viewLifecycleOwner
-
-		return binding.root
+		return ComposeView(requireContext()).apply {
+			setContent {
+				MobileSdkExampleAppTheme {
+					LaunchScreen()
+				}
+			}
+		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		navigateToSelection()
+		navigateToProductSelection()
 	}
 
-	override fun onDestroyView() {
-		super.onDestroyView()
+	private fun navigateToProductSelection() {
+		val action = LaunchFragmentDirections.actionNavLaunchToNavProductSelection()
 
-		binding.unbind()
-		_binding = null
-	}
-
-	private fun navigateToSelection() {
-		val action = LaunchFragmentDirections.actionNavLaunchToNavSelection()
-
-		findNavController().navigate(action)
+		findNavController().navigate(directions = action)
 	}
 }

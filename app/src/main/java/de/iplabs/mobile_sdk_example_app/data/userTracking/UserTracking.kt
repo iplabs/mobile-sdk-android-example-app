@@ -14,7 +14,7 @@ object UserTracking {
 				&& userTrackingPermissionLevel != UserTrackingPermission.FORBID
 			) {
 				Log.e(
-					"UserTrackingPermission",
+					"IplabsMobileSdkExampleApp",
 					"User tracking permission level cannot be set to anything but “UserTrackingPermission.FORBID” because no analytics provider was set."
 				)
 

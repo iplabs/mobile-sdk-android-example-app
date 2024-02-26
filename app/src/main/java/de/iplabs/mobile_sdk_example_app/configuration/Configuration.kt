@@ -25,4 +25,5 @@ object Configuration {
 	const val flowTimeoutInMs = 5_000L
 	const val projectExpirationWarningPeriodInDays = 7
 	const val sdkInfoUrl = "https://www.iplabs.com/photo-commerce-mobile-sdk/"
+	const val cartCacheFile = "cart.json"
 }
